@@ -1,0 +1,15 @@
+<div *ngIf="loading">Carregando...</div>
+
+<div *ngIf="error" class="error">
+  {{ error }}
+</div>
+
+<div *ngIf="!loading && !error">
+  <h3>Lista de Aulas:</h3>
+  <ul>
+    <li *ngFor="let aula of aulas">
+      {{ aula.nome }}
+    </li>
+  </ul>
+</div>
+
