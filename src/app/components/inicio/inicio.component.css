@@ -1,0 +1,58 @@
+:host {
+    display: block;
+    background-color: black;
+    color: white; /* Para garantir que o texto fique legível */
+    min-height: 100vh; /* Para ocupar toda a altura da tela */
+    width: 100%;
+}
+
+/* Estiliza a imagem para cobrir parte da tela */
+.imagem {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%); /* Centraliza a imagem corretamente */
+    width: 160vw; /* Aumenta levemente para garantir que cubra toda a largura */
+    height: 130vh;
+}
+
+/* Ajusta a imagem mantendo o máximo da exibição sem cortar demais */
+.imagem img {
+    width: 90%;
+    height: 70%;
+    filter: brightness(40%);
+}
+/* Estiliza o conteúdo para ficar sobre a imagem */
+.conteudo {
+    position: relative;
+    z-index: 1;
+    color: white;
+    text-align: center;
+    padding: 50px;
+}
+
+.categoria-bar {
+    background-color: #71C03D; /* cor verde */
+    color: white;
+    margin-top: 50px;
+    padding: 20px;
+    text-align: center;
+    font-size: 24px;
+}
+
+/* Cards */
+.card {
+    border: none; /* Retira a borda do card */
+    margin-bottom: 20px; /* Espaço entre os cards */
+}
+
+.card-img-top {
+    height: 200px; /* Defina um tamanho fixo ou dinâmico para a imagem */
+    object-fit: cover; /* Garante que a imagem se ajuste ao tamanho do card */
+}
+
+.card-body {
+    text-align: center;
+}
+
+

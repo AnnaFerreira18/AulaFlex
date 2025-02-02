@@ -9,13 +9,12 @@ import { NovaSenhaComponent } from './components/redefinir-senha/nova-senha/nova
 
 const routes: Routes = [
   { path: '', redirectTo: 'inicio', pathMatch: 'full' },
-  { path: 'inicio', component: InicioComponent }, 
+  { path: 'inicio', component: InicioComponent },
   { path: 'login', component: LoginComponent },
   { path: 'criarConta', component: CriarContaComponent },
   { path: 'listarInscricoes', component: ListarInscricoesComponent },
   { path: 'redefinirSenha', component: RedefinirSenhaComponent },
   { path: 'novaSenha', component: NovaSenhaComponent },
-  { path: '**', redirectTo: 'inicio' }, 
 ];
 
 @NgModule({

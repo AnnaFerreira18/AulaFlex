@@ -1,0 +1,14 @@
+/* Teste de Garantia de Footer no Final */
+body {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;  /* Garante que o body ocupe 100% da altura da tela */
+}
+
+.app-content {
+  flex-grow: 1;  /* Faz o conteúdo ocupar o espaço restante */
+}
+
+footer {
+  margin-top: auto; /* Garante que o footer fique no final da página */
+}

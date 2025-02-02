@@ -1,1 +1,7 @@
-/* You can add global styles to this file, and also import other style files */
+.container-global {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 120px); /* Ajuste para considerar altura do navbar e footer */
+    position: relative;
+    overflow: hidden;
+}

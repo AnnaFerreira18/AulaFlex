@@ -1,0 +1,109 @@
+.navbar-custom {
+  background-color: #622986;
+}
+
+.navbar-brand {
+  font-family: 'Mandali', sans-serif;
+  font-size: 20px;
+  color: white !important;
+}
+
+.divider {
+  width: 2px;
+  height: 25px;
+  background-color: rgba(167, 167, 167, 0.164);
+  margin: 0 15px;
+  margin-top: 10px;
+}
+
+.navbar-nav{
+ margin-right: 15px;
+}
+
+.navbar-nav .nav-item .nav-link.dropdown-toggle::after {
+    display: none !important;
+}
+
+.nav-link {
+    color: white !important;
+    font-size: 18px;
+    position: relative;
+    padding: 10px 30px;
+    transition: all 0.2s ease-in-out;
+    border-radius: 1px;
+}
+
+.nav-link:hover {
+    text-shadow: 0px 0px 50px rgba(255, 255, 255, 0.7);
+    transform: translateY(1px);
+    box-shadow: 60px 60px 60px rgba(0, 0, 0, 0.2);
+}
+
+.dropdown-menu {
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    margin-top: 5px;
+    width: 150px;
+    position: absolute;
+    left: -10px;
+    display: none;
+}
+
+
+.dropdown:hover .dropdown-menu,
+.dropdown-menu:hover {
+    display: block;
+}
+
+
+.dropdown-item {
+    color: #622986;
+    padding: 10px 20px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-item:hover, .dropdown-item:focus {
+    background-color: #622986;
+    color: white;
+}
+
+@media (max-width: 991px) {
+    /* Ajusta o comportamento da navbar no celular */
+    .navbar-collapse {
+        position: relative;
+    }
+
+    /* Garante que os itens fiquem alinhados corretamente */
+    .navbar-nav .nav-item {
+        position: relative;
+    }
+
+    /* Garante que o link "Aulas" fique com a largura certa */
+    .navbar-nav .nav-link {
+        width: 100%;
+        text-align: center;
+    }
+
+    /* Ajusta o dropdown para aparecer corretamente sobre os itens no celular */
+    .navbar-nav .nav-item.dropdown .dropdown-menu {
+        position: absolute;
+        width: 100%; /* Garante que o menu tenha a largura correta */
+        top: 100%;
+        left: 0;
+        z-index: 1050; /* Garante que o dropdown fique acima de outros itens */
+    }
+
+    /* Esconde a divisória no celular */
+    .divider {
+        display: none;
+    }
+
+    /* Garante que o dropdown fique centralizado no celular */
+    .navbar-nav .dropdown-menu {
+        left: 0;
+        right: 0;
+    }
+}

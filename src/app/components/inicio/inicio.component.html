@@ -1,9 +1,85 @@
-<div *ngIf="loading">Carregando...</div>
+<app-header></app-header>
+
+<div class="container-global">
+  <div class="imagem">
+    <img src="../../../assets/atividadeFisica3.jpg" />
+  </div>
+
+<div class="conteudo">
+    <h1>Bem-vindo ao AulaFlex</h1>
+    <p>Escolha sua aula e comece agora!</p>
+  </div>
+</div>
+
+<!-- Barra Verde com Categoria -->
+<div class="categoria-bar">
+    <h3>Categoria</h3>
+</div>
+
+<!-- Cards -->
+<div class="container my-5">
+    <div class="row">
+        <!-- Loop para gerar os cards -->
+        <div class="col-md-4" *ngFor="let aula of aulas">
+            <div class="card">
+                <img [src]="aula.imagem" class="card-img-top" alt="Imagem do Card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ aula.nome }}</h5>
+                    <p class="card-text">{{ aula.descricao }}</p>
+                    <a [href]="aula.link" class="btn btn-primary">Saiba Mais</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="categoria-bar">
+    <h3>Categoria</h3>
+</div>
+
+<!-- Cards -->
+<div class="container my-5">
+    <div class="row">
+        <!-- Loop para gerar os cards -->
+        <div class="col-md-4" *ngFor="let aula of aulas">
+            <div class="card">
+                <img [src]="aula.imagem" class="card-img-top" alt="Imagem do Card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ aula.nome }}</h5>
+                    <p class="card-text">{{ aula.descricao }}</p>
+                    <a [href]="aula.link" class="btn btn-primary">Saiba Mais</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="categoria-bar">
+    <h3>Categoria</h3>
+</div>
+
+<!-- Cards -->
+<div class="container my-5">
+    <div class="row">
+        <!-- Loop para gerar os cards -->
+        <div class="col-md-4" *ngFor="let aula of aulas">
+            <div class="card">
+                <img [src]="aula.imagem" class="card-img-top" alt="Imagem do Card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ aula.nome }}</h5>
+                    <p class="card-text">{{ aula.descricao }}</p>
+                    <a [href]="aula.link" class="btn btn-primary">Saiba Mais</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <div *ngIf="loading">Carregando...</div>
 
 <div *ngIf="error" class="error">
   {{ error }}
 </div>
-
+<button class="btn btn-primary">Botão Bootstrap</button>
 <div *ngIf="!loading && !error">
   <h3>Lista de Aulas:</h3>
   <ul>
@@ -11,5 +87,5 @@
       {{ aula.nome }}
     </li>
   </ul>
-</div>
-
+</div> -->
+<app-footer></app-footer>
