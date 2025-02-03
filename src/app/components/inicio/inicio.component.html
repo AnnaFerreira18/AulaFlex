@@ -6,86 +6,115 @@
   </div>
 
 <div class="conteudo">
-    <h1>Bem-vindo ao AulaFlex</h1>
-    <p>Escolha sua aula e comece agora!</p>
+    <h1>Bem-vindo ao AulaFlex!</h1>
+    <p>Estamos muito felizes em ter você aqui no nosso espaço dedicado à dança e aos aeróbicos. Aqui, acreditamos que o movimento é uma poderosa ferramenta para melhorar a saúde, a disposição e, claro, a autoestima. Seja você um iniciante ou um expert, temos opções para todos os níveis e objetivos.</p>
+    <p>Sinta-se em casa e aproveite cada momento. Estamos aqui para te apoiar em cada passo da sua jornada.
+Faça agora sua inscrição, arrastando pra cima!</p>
+</div>
+</div>
+
+<div class="categoria-bar">
+    <h3>Fitness</h3>
+</div>
+
+<!-- Cards -->
+<div class="container my-5">
+  <div class="row">
+    <!-- Loop para gerar os cards -->
+    <div class="col-md-4" *ngFor="let aula of aulas">
+      <div class="card">
+        <img [src]="aula.imagem" class="card-img-top" alt="Imagem do Card">
+        <div class="card-body">
+          <h5 class="card-title">{{ aula.nome }}</h5>
+          <p class="card-text">{{ aula.descricao }}</p>
+          <!-- Botão para abrir a modal -->
+          <button class="btn btn-primary" (click)="abrirModal()">Saiba Mais</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
-<!-- Barra Verde com Categoria -->
 <div class="categoria-bar">
-    <h3>Categoria</h3>
+    <h3>Dança</h3>
 </div>
 
 <!-- Cards -->
 <div class="container my-5">
-    <div class="row">
-        <!-- Loop para gerar os cards -->
-        <div class="col-md-4" *ngFor="let aula of aulas">
-            <div class="card">
-                <img [src]="aula.imagem" class="card-img-top" alt="Imagem do Card">
-                <div class="card-body">
-                    <h5 class="card-title">{{ aula.nome }}</h5>
-                    <p class="card-text">{{ aula.descricao }}</p>
-                    <a [href]="aula.link" class="btn btn-primary">Saiba Mais</a>
-                </div>
-            </div>
+  <div class="row">
+    <!-- Loop para gerar os cards -->
+    <div class="col-md-4" *ngFor="let aula of aulas">
+      <div class="card">
+        <img [src]="aula.imagem" class="card-img-top" alt="Imagem do Card">
+        <div class="card-body">
+          <h5 class="card-title">{{ aula.nome }}</h5>
+          <p class="card-text">{{ aula.descricao }}</p>
+          <!-- Botão para abrir a modal -->
+          <button class="btn btn-primary" (click)="abrirModal()">Saiba Mais</button>
         </div>
+      </div>
     </div>
+  </div>
 </div>
-
 <div class="categoria-bar">
-    <h3>Categoria</h3>
+    <h3>Artes Marciais</h3>
 </div>
 
 <!-- Cards -->
 <div class="container my-5">
-    <div class="row">
-        <!-- Loop para gerar os cards -->
-        <div class="col-md-4" *ngFor="let aula of aulas">
-            <div class="card">
-                <img [src]="aula.imagem" class="card-img-top" alt="Imagem do Card">
-                <div class="card-body">
-                    <h5 class="card-title">{{ aula.nome }}</h5>
-                    <p class="card-text">{{ aula.descricao }}</p>
-                    <a [href]="aula.link" class="btn btn-primary">Saiba Mais</a>
-                </div>
-            </div>
+  <div class="row">
+    <!-- Loop para gerar os cards -->
+    <div class="col-md-4" *ngFor="let aula of aulas">
+      <div class="card">
+        <img [src]="aula.imagem" class="card-img-top" alt="Imagem do Card">
+        <div class="card-body">
+          <h5 class="card-title">{{ aula.nome }}</h5>
+          <p class="card-text">{{ aula.descricao }}</p>
+          <!-- Botão para abrir a modal -->
+          <button class="btn btn-primary" (click)="abrirModal()">Saiba Mais</button>
         </div>
+      </div>
     </div>
-</div>
-<div class="categoria-bar">
-    <h3>Categoria</h3>
+  </div>
 </div>
 
-<!-- Cards -->
-<div class="container my-5">
-    <div class="row">
-        <!-- Loop para gerar os cards -->
-        <div class="col-md-4" *ngFor="let aula of aulas">
-            <div class="card">
-                <img [src]="aula.imagem" class="card-img-top" alt="Imagem do Card">
-                <div class="card-body">
-                    <h5 class="card-title">{{ aula.nome }}</h5>
-                    <p class="card-text">{{ aula.descricao }}</p>
-                    <a [href]="aula.link" class="btn btn-primary">Saiba Mais</a>
-                </div>
-            </div>
-        </div>
+<!-- Modal -->
+<div class="modal fade" id="modalDetalhes" tabindex="-1" aria-labelledby="modalDetalhesLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalDetalhesLabel">Detalhes da Aula</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Conteúdo da modal...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+        <button type="button" class="btn btn-primary">Salvar alterações</button>
+      </div>
     </div>
+  </div>
 </div>
 
-<!-- <div *ngIf="loading">Carregando...</div>
-
-<div *ngIf="error" class="error">
-  {{ error }}
+<div class="card" style="width: 18rem;">
+  <img src="..." class="card-img-top" alt="...">
+  <div class="card-body">
+    <h5 class="card-title">Card title</h5>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    <a href="#" class="btn btn-primary">Go somewhere</a>
+  </div>
 </div>
-<button class="btn btn-primary">Botão Bootstrap</button>
-<div *ngIf="!loading && !error">
-  <h3>Lista de Aulas:</h3>
-  <ul>
-    <li *ngFor="let aula of aulas">
-      {{ aula.nome }}
-    </li>
-  </ul>
-</div> -->
+
+<div class="modal-body">
+  <h2 class="fs-5">Popover in a modal</h2>
+  <p>This <button class="btn btn-secondary" data-bs-toggle="popover" title="Popover title" data-bs-content="Popover body content is set in this attribute.">button</button> triggers a popover on click.</p>
+  <hr>
+  <h2 class="fs-5">Tooltips in a modal</h2>
+  <p><a href="#" data-bs-toggle="tooltip" title="Tooltip">This link</a> and <a href="#" data-bs-toggle="tooltip" title="Tooltip">that link</a> have tooltips on hover.</p>
+</div>
+
+<div class="spinner-border m-5" role="status">
+  <span class="visually-hidden">Loading...</span>
+</div>
 <app-footer></app-footer>

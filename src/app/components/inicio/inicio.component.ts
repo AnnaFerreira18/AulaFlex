@@ -1,5 +1,5 @@
-import { AulaFlexServiceService } from './../../shared/aula-flex-service.service';
 import { Component, OnInit } from '@angular/core';
+import { AulaFlexServiceService } from './../../shared/aula-flex-service.service';
 
 @Component({
   selector: 'app-inicio',
@@ -20,7 +20,7 @@ export class InicioComponent implements OnInit {
   listarAulas(): void {
     this.AulaFlexServiceService.listarAulas().subscribe(
       (response) => {
-       console.log(response)
+        console.log(response)
         this.aulas = response;  // Armazena as aulas na variável
         this.loading = false;    // Desliga o estado de carregamento
       },
@@ -30,4 +30,15 @@ export class InicioComponent implements OnInit {
       }
     );
   }
+
+  selectedAula: any = null;
+
+abrirModal() {
+  const modalElement = document.getElementById('modalDetalhes');
+  if (modalElement) {
+    const modal = new window.bootstrap.Modal(modalElement);  // Acesso direto à classe Modal do Bootstrap
+    modal.show();  // Exibe a modal
+  }
+}
+
 }

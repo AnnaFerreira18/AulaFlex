@@ -7,4 +7,13 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'AulaFlex';
+
+
 }
+
+declare global {
+  interface Window {
+    bootstrap: any;
+  }
+}
+

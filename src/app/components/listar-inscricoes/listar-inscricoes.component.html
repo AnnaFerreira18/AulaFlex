@@ -1,2 +1,21 @@
 <app-header></app-header>
+<div class="categoria-bar">
+  <h3>Inscrições</h3>
+</div>
+
+<div class="card mb-4" *ngFor="let inscricao of inscricoes">
+  <div class="card-body grid-container">
+    <div class="categoria-container">
+      <p class="card-text categoria">
+        {{ inscricao.categoria }} - {{ inscricao.nome }}
+      </p>
+      <hr />
+    </div>
+    <p class="card-text status">Status: {{ inscricao.status }}</p>
+    <p class="card-text horario">{{ inscricao.dia }} - {{ inscricao.hora }}</p>
+    <p class="card-text dataInicio">Início: {{ inscricao.dataInicio }}</p>
+    <p class="card-text dataFim">Fim: {{ inscricao.dataFim }}</p>
+  </div>
+</div>
+
 <app-footer></app-footer>

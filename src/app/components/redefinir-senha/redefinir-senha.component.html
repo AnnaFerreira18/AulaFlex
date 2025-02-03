@@ -1,2 +1,44 @@
 <app-header></app-header>
+<div
+  class="container d-flex justify-content-center align-items-center min-vh-100"
+>
+  <div class="card" style="width: 100%; max-width: 440px">
+    <div class="card-body">
+      <h3 class="card-title text-center">Redefinir senha</h3>
+
+      <p class="text-center">
+        <b>Fique tranquilo!</b><br />
+        Enviaremos as instruções para você recuperar sua senha.<br />
+        Digite seu e-mail no campo abaixo.
+      </p>
+
+      <form>
+        <div class="mb-3 position-relative">
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            name="email"
+            placeholder=" "
+            required
+          />
+          <label for="email" class="form-label position-absolute start-0 ms-3"
+            >Email</label
+          >
+        </div>
+
+        <div class="d-flex justify-content-center mt-4">
+          <button type="submit" class="btn btn-success w-50">Confirmar</button>
+        </div>
+      </form>
+
+      <div class="text-center mt-3">
+        <p class="mb-0">
+          <a href="/login" class="text-decoration-none">Voltar ao login</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
 <app-footer></app-footer>

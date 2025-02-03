@@ -1,0 +1,98 @@
+.card {
+  padding: 45px;
+  border-radius: 12px;
+  box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.2), 0px 5px 10px rgba(0, 0, 0, 0.15);
+  background-color: #e7e7e7af;
+  position: relative;
+}
+
+.card-title {
+  font-size: 35px;
+  margin-bottom: 40px;
+  font-weight: 600;
+  color: white;
+  text-shadow: 1px 1px 2px #193507,  0 0 5px #3b8b06;
+}
+
+.btn-success {
+  margin-bottom: 50px;
+  border-radius: 25px;
+  padding: 10px;
+  background-color: #71C03D;
+  font-size: 18px;
+  font-weight: 600;
+  color: rgb(255, 255, 255);
+  transition: background-color 0.3s ease;
+}
+
+.btn-success:hover {
+  background-color: #5a9e2d;
+}
+
+input {
+  border-radius: 25px;
+  padding-left: 20px;
+  border: 1px solid #444246;
+  transition: border 0.3s ease;
+  font-size: 16px;
+  height: 50px;
+}
+
+.form-label {
+  font-size: 18px;
+  position: absolute;
+  top: 50%;
+  left: 20px;
+  transform: translateY(-50%);
+  transition: 0.3s ease;
+  color: #949394;
+}
+
+.position-relative {
+  position: relative;input {
+  margin-bottom: 35px;
+}
+}
+
+input:focus ~ .form-label,
+input:not(:placeholder-shown) ~ .form-label {
+  top: -19px;
+  left: 5px;
+  font-size: 12px;
+  color: #5a9e2d;
+}
+
+input:focus {
+  border-color: #622986;
+}
+
+input {
+  border-radius: 20px;
+  padding-left: 20px;
+}
+
+.alert {
+  font-size: 14px;
+}
+
+.text-start {
+  font-size: 16px;
+}
+
+.text-start a {
+  color: #007bff;
+  font-size: 14px;
+}
+
+.text-start a:hover {
+  color: #0d1f88;
+}
+
+.card-body {
+  position: relative;
+}
+
+input:focus {
+  box-shadow: none !important;
+  outline: none !important;
+}
