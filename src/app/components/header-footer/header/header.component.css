@@ -1,3 +1,6 @@
+:host {
+  scroll-behavior: smooth;
+}
 .navbar-custom {
   background-color: #622986;
 }

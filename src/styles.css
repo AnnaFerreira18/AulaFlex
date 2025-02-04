@@ -1,8 +1,11 @@
 .container-global {
     display: flex;
     flex-direction: column;
-    min-height: calc(100vh - 120px); /* Ajuste para considerar altura do navbar e footer */
+    min-height: calc(100vh - 120px);
     position: relative;
     overflow: hidden;
 }
 
+html {
+  scroll-behavior: smooth;
+}
