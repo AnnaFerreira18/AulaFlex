@@ -36,10 +36,10 @@
 
 .conteudo p {
   font-size: 18pt;
-  padding: 10px; /* Aumenta o padding para tornar o texto mais espaçado e confortável */
-  margin-top: 20px; /* Ajuste o topo para criar um espaçamento consistente entre os parágrafos */
-  line-height: 1.6; /* Aumenta o espaçamento entre as linhas para melhorar a legibilidade */
-  color: #ffffff; /* Cor de texto mais suave para facilitar a leitura */
+  padding: 10px;
+  margin-top: 20px;
+  line-height: 1.6;
+  color: #ffffff;
 }
 
 .conteudo h1 {
@@ -95,14 +95,14 @@ hr {
 .btn {
   margin-top: 40px;
   margin-bottom: 20px;
-  padding: 10px; /* Aumenta o padding para aumentar a área do botão */
+  padding: 10px;
   background-color: #71C03D;
   font-size: 18px;
   font-weight: 800;
   color: rgb(255, 255, 255);
   transition: background-color 0.3s ease;
   border: none;
-  width: 150px; /* Você pode definir uma largura fixa, por exemplo: width: 200px; */
+  width: 150px;
 }
 
 
@@ -111,17 +111,17 @@ hr {
 }
 
 .card-img-top {
-  height: 270px; /* Ajuste para a altura que desejar */
-  object-fit: cover; /* Isso vai garantir que a imagem preencha o espaço sem distorcer */
+  height: 270px;
+  object-fit: cover;
 }
 
 
 .carousel-control-prev,
 .carousel-control-next {
   position: absolute;
-  top: 50%; /* Coloca os botões verticalmente no meio */
-  transform: translateY(-50%); /* Ajusta para que fiquem bem centralizados */
-  z-index: 10; /* Garante que os botões fiquem sobre os outros elementos */
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
 }
 
 .carousel-control-prev {
@@ -174,7 +174,7 @@ hr {
   }
 }
 
-/* Modal Content */
+/* Modal */
 .modal-content {
   border-radius: 12px;
   padding: 10px;
@@ -185,7 +185,6 @@ hr {
   height: 100%;
 }
 
-/* Modal Header */
 .modal-header {
   background-color: #622986;
   border-bottom: 1px solid #622986;
@@ -193,19 +192,17 @@ hr {
   color: white;
 }
 
-/* Modal Body */
 .modal-body {
   padding: 25px;
   font-size: 1rem;
   color: #666;
-  flex-grow: 1; /* Permite que a modal-body cresça para ocupar o espaço disponível */
-  min-height: 250px; /* Garante que tenha altura suficiente */
+  flex-grow: 1;
+  min-height: 250px;
   display: flex;
   flex-direction: column;
-  gap: 15px; /* Espaçamento entre os campos */
+  gap: 15px;
 }
 
-/* Modal Footer */
 .modal-footer {
   background-color: #f8f9fa;
   border-top: 1px solid #e0e0e0;
@@ -217,8 +214,8 @@ hr {
 }
 
 .modal-footer .btn {
-  width: auto; /* Ajusta o tamanho conforme o conteúdo */
-  margin-top: 30px; /* Aumenta o espaçamento entre o botão e os campos de input */
+  width: auto;
+  margin-top: 30px;
 }
 
 .modal-footer .btn:disabled {
@@ -231,7 +228,6 @@ hr {
   cursor: pointer;
 }
 
-/* Ajustes no Radio Button */
 .list-group-item input[type="radio"] {
   accent-color: #622986;
 }
@@ -240,21 +236,21 @@ hr {
 input:focus,
 select:focus,
 textarea:focus {
-  outline: none; /* Remove o contorno padrão */
-  box-shadow: none; /* Remove o sombreamento */
+  outline: none;
+  box-shadow: none;
 }
 
 .modal-header .btn-close {
-  color: #ffffff;  /* Altere para a cor desejada */
-  opacity: 1;      /* Garantir que a cor seja visível */
-  border: none;    /* Remove a borda azul */
+  color: #ffffff;
+  opacity: 1;
+  border: none;
 }
 
-/* Altera a cor do "X" ao passar o mouse ou quando o foco estiver ativo */
+
 .modal-header .btn-close:hover,
 .modal-header .btn-close:focus {
-  color: #ffffff;  /* Altere para a cor desejada no hover */
-  box-shadow: none; /* Remove qualquer sombra aplicada ao foco */
+  color: #ffffff;
+  box-shadow: none;
 }
 
 
@@ -273,13 +269,13 @@ textarea:focus {
 
 @media (max-width: 576px) {
   .modal-dialog {
-    max-width: 95%; /* Diminuir mais a largura do modal para telas muito pequenas */
-    margin: 10px; /* Dá uma margem para não encostar nas bordas */
+    max-width: 95%;
+    margin: 10px;
   }
 
   .modal-content {
-    border-radius: 8px; /* Continua com um arredondamento suave */
-    padding: 10px; /* Reduz o padding para dar mais espaço ao conteúdo */
+    border-radius: 8px;
+    padding: 10px; 
   }
 }
 

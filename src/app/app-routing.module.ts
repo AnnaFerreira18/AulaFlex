@@ -14,7 +14,7 @@ const routes: Routes = [
   { path: 'criarConta', component: CriarContaComponent },
   { path: 'listarInscricoes', component: ListarInscricoesComponent },
   { path: 'redefinirSenha', component: RedefinirSenhaComponent },
-  { path: 'novaSenha', component: NovaSenhaComponent },
+  { path: 'novaSenha/:email/:chave', component: NovaSenhaComponent },
 ];
 
 @NgModule({

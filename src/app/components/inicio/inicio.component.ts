@@ -1,7 +1,10 @@
+import { AuthService } from './../../shared/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { AulaFlexServiceService } from './../../shared/aula-flex-service.service';
 import { ActivatedRoute } from '@angular/router';
-
+import { Horario, Aula } from 'src/app/shared/models';
+import { environment } from 'src/enviroments';
+import { Inscricao } from 'src/app/shared/models';
 
 @Component({
   selector: 'app-inicio',
@@ -9,35 +12,18 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./inicio.component.css'],
 })
 export class InicioComponent implements OnInit {
-  aulas: any[] = [];
+  ltsaulas: any[] = [];
   error: string = '';
-diasDisponiveis: string[] = ['Segunda-feira', 'Terça-feira', 'Quarta-feira'];
   diaSelecionado: string = '';
   horarioSelecionado: string = '';
-  horariosDisponiveis: { horario: string, vagas: number }[] = [];
-
-  // Simulação de horários e vagas para cada dia
- horariosPorDia: { [key: string]: { horario: string, vagas: number }[] } = {
-    'Segunda-feira': [
-      { horario: '08:00', vagas: 5 },
-      { horario: '10:00', vagas: 0 }, // Sem vagas
-      { horario: '14:00', vagas: 7 }
-    ],
-    'Terça-feira': [
-      { horario: '09:00', vagas: 6 },
-      { horario: '13:00', vagas: 0 }, // Sem vagas
-      { horario: '16:00', vagas: 4 }
-    ],
-    'Quarta-feira': [
-      { horario: '07:30', vagas: 8 },
-      { horario: '11:30', vagas: 0 }, // Sem vagas
-      { horario: '15:30', vagas: 3 }
-    ]
-  };
+  horariosDisponiveis: any[] = [];
+  idAulaSelecionada: any;
+  colaborador: any;
 
   constructor(
     private AulaFlexServiceService: AulaFlexServiceService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private authService: AuthService
   ) {}
 
   ngAfterViewChecked(): void {
@@ -45,46 +31,37 @@ diasDisponiveis: string[] = ['Segunda-feira', 'Terça-feira', 'Quarta-feira'];
   }
 
   ngOnInit(): void {
+    this.colaborador = this.authService.getJsonLocalStorage('colaborador');
+
+    if (this.colaborador?.idColaborador) {
+      console.log('ID do Colaborador:', this.colaborador.idColaborador);
+    }
+
     this.scrollToFragment();
     this.listarAulas();
   }
 
-
-carregarHorarios() {
-    if (this.diaSelecionado) {
-      this.horariosDisponiveis = this.horariosPorDia[this.diaSelecionado];
-      this.horarioSelecionado = ''; // Resetar a seleção de horário
-    } else {
-      this.horariosDisponiveis = [];
-    }
-  }
-
-  inscrever() {
-    if (!this.diaSelecionado || !this.horarioSelecionado) {
-      alert('Selecione um dia e um horário!');
-      return;
-    }
-    alert(`Inscrição confirmada para ${this.diaSelecionado} às ${this.horarioSelecionado}`);
-  }
-
-  scrollToFragment() {
-    this.route.fragment.subscribe((fragment) => {
-      if (fragment) {
-        const element = document.getElementById(fragment);
-        if (element) {
-          window.scrollTo({
-            top: element.offsetTop,
-            behavior: 'smooth',
-          });
-        }
+  carregarHorarios(idAula: any): void {
+    this.AulaFlexServiceService.listarHorariosPorAula(idAula).subscribe(
+      (horarios: Horario[]) => {
+        this.horariosDisponiveis = horarios;
+      },
+      (error) => {
+        console.error('Erro ao carregar horários:', error);
       }
-    });
+    );
   }
+  filtrarHorariosPorDia(dia: string) {
+    return this.horariosDisponiveis.filter(
+      (horario) => horario.DiaSemana === dia
+    );
+  }
+
   listarAulas(): void {
     this.AulaFlexServiceService.listarAulas().subscribe(
-      (response) => {
-        console.log(response);
-        this.aulas = response;
+      (aulas) => {
+        console.log(aulas);
+        this.ltsaulas = aulas;
       },
       (error) => {
         this.error = 'Erro ao carregar as aulas';
@@ -92,18 +69,8 @@ carregarHorarios() {
     );
   }
 
-  selectedAula: any = null;
-
-  abrirModal() {
-    const modalElement = document.getElementById('modalDetalhes');
-    if (modalElement) {
-      const modal = new window.bootstrap.Modal(modalElement);
-      modal.show();
-    }
-  }
-
   aulasFiltradas(categoria: string): any[][] {
-    const aulasFiltradasPorCategoria = this.aulas
+    const aulasFiltradasPorCategoria = this.ltsaulas
       .filter((aula) => aula.categoria === categoria)
       .sort((a, b) => a.nome.localeCompare(b.nome));
 
@@ -123,5 +90,65 @@ carregarHorarios() {
       .toLowerCase()
       .replace(/\s+/g, '-')}.png`;
     return imagem;
+  }
+
+  inscrever() {
+    const dataInicio = this.obterDataAtual();
+    const dataFim = this.calcularDataFim(dataInicio);
+
+    const command: Inscricao = {
+      idColaborador: this.colaborador.idColaborador,
+      idAula: this.idAulaSelecionada,
+      idHorario: this.horarioSelecionado,
+      dataInicio: dataInicio,
+      dataFim: dataFim,
+      status: 'Ativo',
+    };
+
+    this.AulaFlexServiceService.inscreverColaborador(command).subscribe(
+      (response) => {
+        console.log('Inscrição realizada com sucesso:', response);
+      },
+      (error) => {
+        console.error('Erro na inscrição:', error);
+      }
+    );
+  }
+
+  obterDataAtual(): Date {
+    const dataAtual = new Date();
+    dataAtual.setUTCHours(0, 0, 0, 0);
+    return new Date(dataAtual.toISOString());
+  }
+
+  calcularDataFim(dataInicio: Date): Date {
+    const dataFim = new Date(dataInicio);
+    dataFim.setMonth(dataFim.getMonth() + 1);
+    return dataFim;
+  }
+
+  scrollToFragment() {
+    this.route.fragment.subscribe((fragment) => {
+      if (fragment) {
+        const element = document.getElementById(fragment);
+        if (element) {
+          window.scrollTo({
+            top: element.offsetTop,
+            behavior: 'smooth',
+          });
+        }
+      }
+    });
+  }
+
+  abrirModal(idAula: any): void {
+    this.idAulaSelecionada = idAula;
+    this.carregarHorarios(idAula);
+
+    const modalElement = document.getElementById('modalDetalhes');
+    if (modalElement) {
+      const modal = new window.bootstrap.Modal(modalElement);
+      modal.show();
+    }
   }
 }

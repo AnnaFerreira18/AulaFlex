@@ -74,37 +74,32 @@
 }
 
 @media (max-width: 991px) {
-    /* Ajusta o comportamento da navbar no celular */
     .navbar-collapse {
         position: relative;
     }
 
-    /* Garante que os itens fiquem alinhados corretamente */
     .navbar-nav .nav-item {
         position: relative;
     }
 
-    /* Garante que o link "Aulas" fique com a largura certa */
     .navbar-nav .nav-link {
         width: 100%;
         text-align: center;
     }
 
-    /* Ajusta o dropdown para aparecer corretamente sobre os itens no celular */
+
     .navbar-nav .nav-item.dropdown .dropdown-menu {
         position: absolute;
-        width: 100%; /* Garante que o menu tenha a largura correta */
+        width: 100%;
         top: 100%;
         left: 0;
-        z-index: 1050; /* Garante que o dropdown fique acima de outros itens */
+        z-index: 1050;
     }
 
-    /* Esconde a divisória no celular */
     .divider {
         display: none;
     }
 
-    /* Garante que o dropdown fique centralizado no celular */
     .navbar-nav .dropdown-menu {
         left: 0;
         right: 0;

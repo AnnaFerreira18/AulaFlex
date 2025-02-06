@@ -1,26 +1,56 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/shared/auth.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
-username: string = '';
-  password: string = '';
+  email: string = '';
+  senha: string = '';
   error: string = '';
 
-  constructor(private router: Router) {}
+  constructor(private authService: AuthService, private router: Router) {}
+  onSubmit(): void {
+    // Verificando se os campos não estão vazios e se o e-mail tem um formato válido
+    if (this.email && this.senha) {
+      // Aqui você pode fazer mais validações (como verificar se o e-mail tem o formato correto)
+      if (!this.isEmailValid(this.email)) {
+        this.error = 'Por favor, insira um e-mail válido.';
+        return;
+      }
 
-  onSubmit() {
-    // Verifique se o usuário e senha estão corretos (isso deve ser feito com um serviço de autenticação)
-    if (this.username === 'admin' && this.password === 'senha123') {
-      // Redirecionar para a página principal (ou para onde for necessário)
-      this.router.navigate(['/home']);
+      // Tentando fazer o login
+      this.authService.login(this.email, this.senha).subscribe(
+        (response) => {
+          if (response && response.token) {
+            const colaborador = response.colaborador;
+            const token = response.token;
+            localStorage.setItem('colaborador', JSON.stringify(colaborador));
+
+            this.authService.saveToken(token);
+            localStorage.setItem('jwt_token', token);
+
+            // Redirecionando para a página "inicio"
+            this.router.navigate(['/inicio']);
+          } else {
+            this.error = 'Ocorreu um erro. Tente novamente.';
+          }
+        },
+        (error) => {
+          this.error = 'Credenciais inválidas. Tente novamente.';
+        }
+      );
     } else {
-      this.error = 'Usuário ou senha inválidos';
+      this.error = 'Preencha todos os campos corretamente!';
     }
   }
 
+
+  isEmailValid(email: string): boolean {
+    const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return regex.test(email);
+  }
 }

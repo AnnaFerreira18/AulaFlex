@@ -4,6 +4,7 @@
   box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.2), 0px 5px 10px rgba(0, 0, 0, 0.15);
   background-color: #e7e7e7af;
   position: relative;
+  margin: 30px auto;
 }
 
 .card-title {
@@ -11,14 +12,14 @@
   margin-bottom: 40px;
   font-weight: 600;
   color: white;
-  text-shadow: 1px 1px 2px #193507,  0 0 5px #3b8b06;
+  text-shadow: 1px 1px 2px #193507, 0 0 5px #3b8b06;
 }
 
 .btn-success {
   margin-bottom: 50px;
   border-radius: 25px;
   padding: 10px;
-  background-color: #71C03D;
+  background-color: #71c03d;
   font-size: 18px;
   font-weight: 600;
   color: rgb(255, 255, 255);
@@ -49,9 +50,10 @@ input {
 }
 
 .position-relative {
-  position: relative;input {
-  margin-bottom: 35px;
-}
+  position: relative;
+  input {
+    margin-bottom: 35px;
+  }
 }
 
 input:focus ~ .form-label,
@@ -96,3 +98,20 @@ input:focus {
   box-shadow: none !important;
   outline: none !important;
 }
+
+.error-message {
+  color: #dc3545;
+  font-size: 1rem;
+  margin-bottom: 30px;
+  margin-left: 10px;
+  margin-top: -25px;
+}
+
+.input-error {
+  border-color: #dc3545;
+}
+
+.label-error {
+  top: 30%;
+}
+

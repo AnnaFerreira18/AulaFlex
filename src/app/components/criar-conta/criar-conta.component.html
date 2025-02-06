@@ -6,68 +6,116 @@
     <div class="card-body">
       <h3 class="card-title text-center">Criar conta</h3>
 
-      <form>
+      <form (ngSubmit)="criarConta()">
         <div class="mb-3 position-relative">
           <input
             type="text"
             class="form-control"
             id="nome"
             name="nome"
+            [(ngModel)]="formData.nome"
             placeholder=" "
             required
+            #nome="ngModel"
+            [ngClass]="{'input-error': nome.invalid && (nome.dirty || nome.touched)}"
           />
           <label for="nome" class="form-label position-absolute start-0 ms-3"
+            [ngClass]="{'label-error': nome.invalid && (nome.dirty || nome.touched)}"
             >Nome</label
           >
+          <div *ngIf="nome.touched && nome.invalid" class="error-message">
+            O nome é obrigatório.
+          </div>
         </div>
+
         <div class="mb-3 position-relative">
           <input
             type="email"
             class="form-control"
             id="email"
             name="email"
-            placeholder=""
+            [(ngModel)]="formData.email"
+            placeholder=" "
             required
+            #email="ngModel"
+            (blur)="checarEmail()"
+            [ngClass]="{'input-error': email.invalid && (email.dirty || email.touched)}"
           />
           <label for="email" class="form-label position-absolute start-0 ms-3"
-            >Email</label
+            [ngClass]="{'label-error': email.invalid && (email.dirty || email.touched)}"
+            >E-mail</label
           >
+          <div *ngIf="email.touched && email.invalid" class="error-message">
+            O e-mail é obrigatório.
+          </div>
+          <div *ngIf="emailDuplicado" class="error-message">
+            Este e-mail já está em uso. Por favor, escolha outro.
+          </div>
         </div>
 
-        <div class="mb-2 position-relative">
+        <div class="mb-3 position-relative">
           <input
             type="password"
             class="form-control"
-            id="password"
-            name="password"
+            id="senha"
+            name="senha"
+            [(ngModel)]="formData.senha"
             placeholder=" "
             required
+            minlength="6"
+            #senha="ngModel"
+            [ngClass]="{'input-error': senha.invalid && (senha.dirty || senha.touched)}"
           />
-          <label
-            for="password"
-            class="form-label position-absolute start-0 ms-3"
+          <label for="senha" class="form-label position-absolute start-0 ms-3"
+            [ngClass]="{'label-error': senha.invalid && (senha.dirty || senha.touched)}"
             >Senha</label
           >
+          <div *ngIf="senha.touched && senha.invalid" class="error-message">
+            <div *ngIf="senha.errors?.['required']">A senha é obrigatória.</div>
+            <div *ngIf="senha.errors?.['minlength']">
+              A senha deve ter no mínimo 6 caracteres.
+            </div>
+          </div>
         </div>
 
-        <div class="mb-2 position-relative">
+        <div class="mb-3 position-relative">
           <input
             type="password"
             class="form-control"
-            id="password"
-            name="password"
+            id="confirmarSenha"
+            name="confirmarSenha"
+            [(ngModel)]="confirmarSenha"
             placeholder=" "
             required
+            (blur)="verificarSenhas()"
+            [ngClass]="{'input-error': senhaNaoCoincide}"
           />
           <label
-            for="password"
+            for="confirmarSenha"
             class="form-label position-absolute start-0 ms-3"
-            >Confirmar senha</label
+            [ngClass]="{'label-error': senhaNaoCoincide}"
           >
+            Confirmar senha
+          </label>
+          <div *ngIf="senhaNaoCoincide" class="error-message">
+            As senhas não coincidem. Por favor, verifique.
+          </div>
         </div>
 
         <div class="d-flex justify-content-center mt-4">
-          <button type="submit" class="btn btn-success w-50">Continuar</button>
+          <button
+            type="submit"
+            class="btn btn-success w-50"
+            [disabled]="
+              !nome.valid ||
+              !email.valid ||
+              !senha.valid ||
+              senhaNaoCoincide ||
+              emailDuplicado
+            "
+          >
+            Continuar
+          </button>
         </div>
       </form>
 

@@ -25,16 +25,18 @@
             Aulas
           </a>
           <ul class="dropdown-menu" aria-labelledby="aulasDropdown">
-            <li>
+            <li *ngIf="isAuthenticated">
               <a class="dropdown-item" href="/listarInscricoes"
                 >Minhas Inscrições</a
               >
             </li>
-            <li><a class="dropdown-item" href="/inicio#fitness">Fitness</a>
-</li>
-<li><a class="dropdown-item" href="/inicio#danca">Dança</a></li>
-<li><a class="dropdown-item" href="/inicio#artes-marciais">Artes Marciais</a></li>
-
+            <li><a class="dropdown-item" href="/inicio#fitness">Fitness</a></li>
+            <li><a class="dropdown-item" href="/inicio#danca">Dança</a></li>
+            <li>
+              <a class="dropdown-item" href="/inicio#artes-marciais"
+                >Artes Marciais</a
+              >
+            </li>
           </ul>
         </li>
 
@@ -52,7 +54,14 @@
             Login
           </a>
           <ul class="dropdown-menu" aria-labelledby="loginDropdown">
-            <li><a class="dropdown-item" href="#">Logout</a></li>
+            <li *ngIf="isAuthenticated">
+              <a
+                class="dropdown-item"
+                href="#"
+                (click)="fazerLogout(); $event.preventDefault()"
+                >Logout</a
+              >
+            </li>
             <li><a class="dropdown-item" href="/login">Entrar</a></li>
             <li><a class="dropdown-item" href="/criarConta">Criar Conta</a></li>
           </ul>

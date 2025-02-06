@@ -51,6 +51,16 @@
   font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
 }
 
+.alert-info {
+  font-size: 14px; /* Reduz o tamanho da fonte */
+  padding: 5px;   /* Reduz o espaçamento interno */
+  padding-top: 25px;
+  border-radius: 5px;
+  width: 75%;      /* Ajusta a largura */
+  margin: 20px auto; /* Centraliza a mensagem */
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 
 
 

@@ -46,7 +46,10 @@
                   <h5 class="card-title">{{ aula.nome }}</h5>
                   <hr />
                   <p class="card-text">{{ aula.descricao }}</p>
-                  <button class="btn btn-primary" (click)="abrirModal()">
+                  <button
+                    class="btn btn-primary"
+                    (click)="abrirModal(aula.idAula)"
+                  >
                     Inscrever
                   </button>
                 </div>
@@ -102,7 +105,10 @@
                   <h5 class="card-title">{{ aula.nome }}</h5>
                   <hr />
                   <p class="card-text">{{ aula.descricao }}</p>
-                  <button class="btn btn-primary" (click)="abrirModal()">
+                  <button
+                    class="btn btn-primary"
+                    (click)="abrirModal(aula.idAula)"
+                  >
                     Inscrever
                   </button>
                 </div>
@@ -162,7 +168,10 @@
                   <h5 class="card-title">{{ aula.nome }}</h5>
                   <hr />
                   <p class="card-text">{{ aula.descricao }}</p>
-                  <button class="btn btn-primary" (click)="abrirModal()">
+                  <button
+                    class="btn btn-primary"
+                    (click)="abrirModal(aula.idAula)"
+                  >
                     Inscrever
                   </button>
                 </div>
@@ -213,48 +222,53 @@
         ></button>
       </div>
       <div class="modal-body">
+        <!-- Selecione o Dia -->
         <label for="dia">Selecione o dia:</label>
         <select
           id="dia"
           class="form-select"
           [(ngModel)]="diaSelecionado"
-          (change)="carregarHorarios()"
+          (change)="carregarHorarios(idAulaSelecionada)"
+          required
         >
-          <option *ngFor="let dia of diasDisponiveis" [value]="dia">
-            {{ dia }}
+          <option value="" disabled selected>Selecione o dia</option>
+          <option *ngFor="let horario of horariosDisponiveis" [value]="horario.DiaSemana">
+            {{ horario.DiaSemana }}
           </option>
         </select>
 
-        <!-- Exibe os horários disponíveis após selecionar um dia -->
-        <div *ngIf="horariosDisponiveis.length > 0" class="mt-3">
+        <!-- Selecione o Horário (só aparecerá quando o dia for selecionado) -->
+        <div *ngIf="diaSelecionado" class="mt-3">
           <label for="horario">Selecione o horário:</label>
           <select
             id="horario"
             class="form-select"
             [(ngModel)]="horarioSelecionado"
+            required
           >
+            <option value="" disabled selected>Selecione o horário</option>
             <option
-              *ngFor="let horario of horariosDisponiveis"
-              [value]="horario.horario"
-              [disabled]="horario.vagas === 0"
+              *ngFor="let horario of filtrarHorariosPorDia(diaSelecionado)"
+              [value]="horario.IdHorario"
+              [disabled]="horario.VagasDisponiveis === 0"
             >
-              {{ horario.horario }} - {{ horario.vagas }} vagas
+              {{ horario.Hora }} - {{ horario.VagasDisponiveis }} vagas
             </option>
           </select>
         </div>
 
-        <!-- Mensagem caso não haja horários disponíveis -->
+        <!-- Caso não haja horários disponíveis -->
         <div *ngIf="horariosDisponiveis.length === 0" class="mt-3">
           <p>Não há horários disponíveis para o dia selecionado.</p>
         </div>
       </div>
 
-      <!-- Botão está FORA do campo de seleção e alinhado corretamente -->
       <div class="modal-footer">
         <button
           type="button"
           class="btn btn-primary"
-          [disabled]="!horarioSelecionado"
+          [disabled]="!diaSelecionado || !horarioSelecionado || diaSelecionado === '' || horarioSelecionado === ''"
+          (click)="inscrever()"
         >
           Confirmar inscrição
         </button>
@@ -262,6 +276,5 @@
     </div>
   </div>
 </div>
-
 
 <app-footer></app-footer>

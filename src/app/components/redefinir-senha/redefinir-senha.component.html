@@ -21,6 +21,7 @@
             name="email"
             placeholder=" "
             required
+            [(ngModel)]="email"
           />
           <label for="email" class="form-label position-absolute start-0 ms-3"
             >Email</label
@@ -28,7 +29,7 @@
         </div>
 
         <div class="d-flex justify-content-center mt-4">
-          <button type="submit" class="btn btn-success w-50">Confirmar</button>
+          <button type="submit" class="btn btn-success w-50" (click)="enviarEmail()">Confirmar</button>
         </div>
       </form>
 

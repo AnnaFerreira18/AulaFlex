@@ -4,6 +4,7 @@
   box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.2), 0px 5px 10px rgba(0, 0, 0, 0.15);
   background-color: #e7e7e7af;
   position: relative;
+  margin: 30px auto;
 }
 
 .card-title {
@@ -11,14 +12,14 @@
   margin-bottom: 60px;
   font-weight: 600;
   color: white;
-  text-shadow: 1px 1px 2px #193507,  0 0 5px #3b8b06;
+  text-shadow: 1px 1px 2px #193507, 0 0 5px #3b8b06;
 }
 
 .btn-success {
   margin-bottom: 20px;
   border-radius: 25px;
   padding: 10px;
-  background-color: #71C03D;
+  background-color: #71c03d;
   font-size: 18px;
   font-weight: 600;
   color: rgb(255, 255, 255);
@@ -45,14 +46,14 @@ input {
   left: 20px;
   transform: translateY(-50%);
   transition: 0.3s ease;
-   color: #949394;
+  color: #949394;
 }
 
 .position-relative {
-  position: relative;input {
-  margin-bottom: 35px;
-}
-
+  position: relative;
+  input {
+    margin-bottom: 35px;
+  }
 }
 
 input:focus ~ .form-label,
@@ -84,7 +85,6 @@ input {
   font-size: 12px;
 }
 
-
 .text-end a:hover {
   color: #0d1f88;
 }
@@ -113,7 +113,7 @@ input:focus {
 
 .social-icon {
   margin-bottom: 45px;
-  width: 40px;  /* Ajuste conforme necessário */
+  width: 40px;
   height: 40px;
   transition: transform 0.2s;
 }
@@ -122,3 +122,22 @@ input:focus {
   transform: scale(1.1);
 }
 
+.alert-custom {
+  margin-bottom: 20px;
+  animation: shake 0.5s ease-out;
+}
+
+.input-error {
+  border-color: #dc3545;
+}
+
+.label-error {
+  top: 30%;
+}
+
+.text-danger {
+  font-size: 1rem;
+  margin-bottom: 30px;
+  margin-left: 10px;
+  margin-top: -25px;
+}

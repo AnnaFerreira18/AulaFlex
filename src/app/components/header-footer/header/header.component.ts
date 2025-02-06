@@ -1,36 +1,24 @@
-import { Component, OnInit, Renderer2 } from '@angular/core';
-import { ElementRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/shared/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css']
+  styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent implements OnInit {
+  isAuthenticated = false;
 
-  constructor(private renderer: Renderer2) { }
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
-    this.addSmoothScrollListener();
+    this.isAuthenticated = this.authService.isAuthenticated();
   }
 
-  addSmoothScrollListener() {
-    const links = document.querySelectorAll('a[href^="#"]');
-
-    links.forEach((link) => {
-      this.renderer.listen(link, 'click', (event) => {
-        event.preventDefault();
-
-        const targetId = link.getAttribute('href')?.substring(1); // Pega o id da âncora
-        const targetElement = document.getElementById(targetId || ''); // Obtém o elemento de destino
-
-        if (targetElement) {
-          targetElement.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start' // Para garantir que o topo da seção seja visível
-          });
-        }
-      });
-    });
+  fazerLogout(): void {
+    this.authService.logout();
+    window.location.reload();
+    this.router.navigate(['/inicio']);
   }
 }
