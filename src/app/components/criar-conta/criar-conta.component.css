@@ -115,3 +115,7 @@ input:focus {
   top: 30%;
 }
 
+.alert {
+  font-size: 1rem;
+  margin-bottom: 40px;
+}

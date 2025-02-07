@@ -22,6 +22,7 @@
   max-width: 800px;
   margin-left: auto;
   margin-right: auto;
+  margin: 20px auto;
   padding: 10px 10px;
   box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.2), 0px 5px 10px rgba(0, 0, 0, 0.15);
 }
@@ -52,15 +53,61 @@
 }
 
 .alert-info {
-  font-size: 14px; /* Reduz o tamanho da fonte */
-  padding: 5px;   /* Reduz o espaçamento interno */
+  font-size: 14px;
+  padding: 5px;
   padding-top: 25px;
   border-radius: 5px;
-  width: 75%;      /* Ajusta a largura */
-  margin: 20px auto; /* Centraliza a mensagem */
+  width: 75%;
+  margin: 20px auto;
   text-align: center;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  gap: 10px;
+  margin: 0;
+}
+
+.pagination button {
+  padding: 10px 20px;
+  border: 1px solid #71c03d;
+  background-color: #71c03d;
+  color: white;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  margin-bottom: 20px;
+}
+
+.pagination button:disabled {
+  background-color: #d6d6d6;
+  cursor: not-allowed;
+  border-color: #d6d6d6;
+}
+
+
+.pagination span {
+  font-size: 16px;
+  color: #333;
+  padding: 0 10px;
+  margin-bottom: 10px;
+}
+
+
+@media (max-width: 768px) {
+  .pagination button {
+    padding: 8px 15px;
+  }
+
+  .pagination span {
+    font-size: 12px;
+  }
+}
 
 

@@ -12,6 +12,8 @@ export class NovaSenhaComponent implements OnInit {
   chave: string = '';
   novaSenha: string = '';
   confirmarSenha: string = '';
+  mensagem: string = '';
+  mensagemErro: boolean = false;
 
   constructor(private route: ActivatedRoute, private aulaFlexService: AulaFlexServiceService) {}
 
@@ -22,28 +24,28 @@ export class NovaSenhaComponent implements OnInit {
     });
   }
 
- onSubmit(): void {
+  onSubmit(): void {
     if (this.novaSenha !== this.confirmarSenha) {
-      alert('As senhas não coincidem!');
+      this.mensagem = 'As senhas não coincidem!';
+      this.mensagemErro = true;
       return;
     }
-    const command = {
-    email: this.email,
-    chave: this.chave,
-    senha: this.novaSenha
-   }
 
+    const command = {
+      email: this.email,
+      chave: this.chave,
+      senha: this.novaSenha,
+    };
 
     this.aulaFlexService.redefinirSenha(this.email, this.chave, command).subscribe(
       (response) => {
-
-        alert('Senha redefinida com sucesso!');
-        // Redirecionar ou outras ações
+        this.mensagem = 'Senha redefinida com sucesso!';
+        this.mensagemErro = false;
       },
       (error) => {
-        // Se houver erro, trate aqui
         console.error('Erro ao redefinir senha:', error);
-        alert('Erro ao redefinir a senha. Tente novamente.');
+        this.mensagem = 'Erro ao redefinir a senha. Tente novamente.';
+        this.mensagemErro = true;
       }
     );
   }

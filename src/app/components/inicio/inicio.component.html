@@ -221,6 +221,9 @@
           aria-label="Fechar"
         ></button>
       </div>
+      <div *ngIf="inscricaoRealizada" class="alert alert-success mt-3">
+        Inscrição realizada com sucesso!
+      </div>
       <div class="modal-body">
         <!-- Selecione o Dia -->
         <label for="dia">Selecione o dia:</label>
@@ -232,8 +235,11 @@
           required
         >
           <option value="" disabled selected>Selecione o dia</option>
-          <option *ngFor="let horario of horariosDisponiveis" [value]="horario.DiaSemana">
-            {{ horario.DiaSemana }}
+          <option
+            *ngFor="let horario of horariosDisponiveis"
+            [value]="horario.dia"
+          >
+            {{ horario.dia }}
           </option>
         </select>
 
@@ -244,6 +250,7 @@
             id="horario"
             class="form-select"
             [(ngModel)]="horarioSelecionado"
+            (change)="verificarInscricao()"
             required
           >
             <option value="" disabled selected>Selecione o horário</option>
@@ -257,9 +264,13 @@
           </select>
         </div>
 
-        <!-- Caso não haja horários disponíveis -->
-        <div *ngIf="horariosDisponiveis.length === 0" class="mt-3">
+        <div *ngIf="horariosDisponiveis.length == 0" class="mt-3">
           <p>Não há horários disponíveis para o dia selecionado.</p>
+        </div>
+
+        <!-- Exibição de erro -->
+        <div class="alert alert-danger mt-3" *ngIf="error">
+          {{ error }}
         </div>
       </div>
 
@@ -267,7 +278,13 @@
         <button
           type="button"
           class="btn btn-primary"
-          [disabled]="!diaSelecionado || !horarioSelecionado || diaSelecionado === '' || horarioSelecionado === ''"
+          [disabled]="
+            !diaSelecionado ||
+            !horarioSelecionado ||
+            diaSelecionado === '' ||
+            horarioSelecionado === '' ||
+            inscricaoExistente
+          "
           (click)="inscrever()"
         >
           Confirmar inscrição

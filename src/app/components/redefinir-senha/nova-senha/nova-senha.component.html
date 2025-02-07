@@ -7,41 +7,89 @@
       <h3 class="card-title text-center">Redefinir senha</h3>
 
       <form (ngSubmit)="onSubmit()">
-  <div class="mb-2 position-relative">
-    <input
-      type="password"
-      class="form-control"
-      id="novaSenha"
-      name="novaSenha"
-      [(ngModel)]="novaSenha"
-      placeholder=" "
-      required
-    />
-    <label for="novaSenha" class="form-label position-absolute start-0 ms-3">
-      Nova Senha
-    </label>
-  </div>
+        <div class="mb-2 position-relative">
+          <input
+            type="password"
+            class="form-control"
+            id="novaSenha"
+            name="novaSenha"
+            placeholder=" "
+            [(ngModel)]="novaSenha"
+            #novaSenhaInput="ngModel"
+            [ngClass]="{
+              'input-error': novaSenhaInput.invalid && novaSenhaInput.touched
+            }"
+            required
+            minlength="6"
+          />
+          <label
+            for="novaSenha"
+            class="form-label position-absolute start-0 ms-3"
+            [ngClass]="{
+              'label-error': novaSenhaInput.invalid && novaSenhaInput.touched
+            }"
+          >
+            Nova Senha
+          </label>
+          <div
+            *ngIf="novaSenhaInput.invalid && novaSenhaInput.touched"
+            class="text-danger"
+          >
+            A senha deve ter pelo menos 6 caracteres.
+          </div>
+        </div>
 
-  <div class="mb-2 position-relative">
-    <input
-      type="password"
-      class="form-control"
-      id="confirmarSenha"
-      name="confirmarSenha"
-      [(ngModel)]="confirmarSenha"
-      placeholder=" "
-      required
-    />
-    <label for="confirmarSenha" class="form-label position-absolute start-0 ms-3">
-      Confirmar Senha
-    </label>
-  </div>
+        <div class="mb-2 position-relative">
+          <input
+            type="password"
+            class="form-control"
+            id="confirmarSenha"
+            name="confirmarSenha"
+            placeholder=" "
+            [(ngModel)]="confirmarSenha"
+            #confirmarSenhaInput="ngModel"
+            [ngClass]="{
+              'input-error':
+                confirmarSenha !== novaSenha && confirmarSenhaInput.touched
+            }"
+            required
+          />
+          <label
+            for="confirmarSenha"
+            class="form-label position-absolute start-0 ms-3"
+            [ngClass]="{
+              'label-error':
+                confirmarSenha !== novaSenha && confirmarSenhaInput.touched
+            }"
+          >
+            Confirmar Senha
+          </label>
+          <div
+            *ngIf="confirmarSenha !== novaSenha && confirmarSenhaInput.touched"
+            class="text-danger"
+          >
+            As senhas não coincidem.
+          </div>
+        </div>
+
+        <div
+          *ngIf="mensagem"
+          [ngClass]="mensagemErro ? 'text-danger' : 'text-success'"
+          class="text-center"
+        >
+          {{ mensagem }}
+        </div>
 
         <div class="d-flex justify-content-center mt-4">
-          <button type="submit" class="btn btn-success w-50">Confirmar</button>
+          <button
+            type="submit"
+            class="btn btn-success w-50"
+            [disabled]="novaSenhaInput.invalid || confirmarSenhaInput.invalid"
+          >
+            Confirmar
+          </button>
         </div>
       </form>
-
     </div>
   </div>
 </div>

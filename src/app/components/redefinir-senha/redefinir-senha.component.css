@@ -81,3 +81,20 @@ input:focus {
 .text-start{
   text-align: center;
 }
+
+
+.error-message {
+  color: #dc3545;
+  font-size: 1rem;
+  margin-bottom: 30px;
+  margin-left: 10px;
+  margin-top: -25px;
+}
+
+.input-error {
+  border-color: #dc3545;
+}
+
+.label-error {
+  top: 30%;
+}

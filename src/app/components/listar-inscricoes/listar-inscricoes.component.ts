@@ -9,13 +9,17 @@ import { AuthService } from 'src/app/shared/auth.service';
   styleUrls: ['./listar-inscricoes.component.css'],
 })
 export class ListarInscricoesComponent implements OnInit {
-
-  constructor(private aulaFlexServiceService: AulaFlexServiceService, private authService: AuthService) {}
+  constructor(
+    private aulaFlexServiceService: AulaFlexServiceService,
+    private authService: AuthService
+  ) {}
 
   public inscricoes: any[] = [];
-  public ltsInscricoes: any[] = [];
-
+  public pagedInscricoes: any[] = [];
   public colaborador: any;
+  public currentPage: number = 1;
+  public totalPages: number = 1;
+  public pageSize: number = 5;
 
   ngOnInit(): void {
     this.colaborador = this.authService.getJsonLocalStorage('colaborador');
@@ -26,18 +30,39 @@ export class ListarInscricoesComponent implements OnInit {
     this.listarIncricoesPorcolaborador();
   }
 
-listarIncricoesPorcolaborador() {
-  this.aulaFlexServiceService.listarInscricoesPorColaborador(
-    this.colaborador.idColaborador
-  ).subscribe(
-    (inscricoes: Inscricao[]) => {
-      console.log(inscricoes); // Verifique se aqui está vindo corretamente
-      this.inscricoes = inscricoes;
-    },
-    (error) => {
-      console.error('Erro ao carregar inscrições:', error);
-    }
-  );
-}
+  listarIncricoesPorcolaborador() {
+    this.aulaFlexServiceService
+      .listarInscricoesPorColaborador(this.colaborador.idColaborador)
+      .subscribe(
+        (inscricoes: Inscricao[]) => {
+          console.log(inscricoes);
+          this.inscricoes = inscricoes;
+          this.totalPages = Math.ceil(this.inscricoes.length / this.pageSize);
+          this.paginate();
+        },
+        (error) => {
+          console.error('Erro ao carregar inscrições:', error);
+        }
+      );
+  }
 
+  paginate() {
+    const startIndex = (this.currentPage - 1) * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    this.pagedInscricoes = this.inscricoes.slice(startIndex, endIndex);
+  }
+
+  prevPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.paginate();
+    }
+  }
+
+  nextPage() {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.paginate();
+    }
+  }
 }

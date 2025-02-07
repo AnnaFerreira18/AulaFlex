@@ -8,30 +8,45 @@ import { AulaFlexServiceService } from 'src/app/shared/aula-flex-service.service
 })
 export class RedefinirSenhaComponent {
   email: string = '';
+  mensagem: string = '';
+  mensagemErro: boolean = false;
 
   constructor(private aulaFlexService: AulaFlexServiceService) {}
 
-enviarEmail() {
-  this.aulaFlexService.checarEmailDuplicado(this.email).subscribe(
-    (response) => {
-      console.log(response);
-      if (response === true) {
-        this.aulaFlexService.enviarEmailRedefinirSenha({ email: this.email }).subscribe(
-          (response) => {
-            console.log('Email de redefinição de senha enviado com sucesso');
-          },
-          (error) => {
-            console.error('Erro ao enviar o email de redefinição de senha:', error);
-          }
-        );
-      } else {
-        console.log('Email não encontrado');
+  enviarEmail() {
+    this.mensagem = '';
+    this.aulaFlexService.checarEmailDuplicado(this.email).subscribe(
+      (response) => {
+        if (response === true) {
+          this.aulaFlexService
+            .enviarEmailRedefinirSenha({ email: this.email })
+            .subscribe(
+              () => {
+                this.mensagem =
+                  'E-mail de redefinição de senha enviado com sucesso.';
+                this.mensagemErro = false;
+              },
+              (error) => {
+                console.error(
+                  'Erro ao enviar o e-mail de redefinição de senha:',
+                  error
+                );
+                this.mensagem =
+                  'Erro ao enviar o e-mail. Por favor, tente novamente mais tarde.';
+                this.mensagemErro = true;
+              }
+            );
+        } else {
+          this.mensagem = 'E-mail não encontrado. Verifique e tente novamente.';
+          this.mensagemErro = true;
+        }
+      },
+      (error) => {
+        console.error('Erro ao verificar e-mail:', error);
+        this.mensagem =
+          'Erro ao verificar o e-mail. Por favor, tente novamente mais tarde.';
+        this.mensagemErro = true; 
       }
-    },
-    (error) => {
-      console.error('Erro ao verificar email', error);
-    }
-  );
-}
-
+    );
+  }
 }

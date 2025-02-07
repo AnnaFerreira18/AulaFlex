@@ -23,26 +23,6 @@ export class AulaFlexServiceService {
     return this.http.get(`${this.apiUrl}/inscricoes/${idColaborador}`);
   }
 
-  totalInscricoesPorCategoria(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/categoriasAulas`);
-  }
-
-  verificarDisponibilidade(aulaId: string, horarioId: string): Observable<any> {
-    return this.http.get(
-      `${this.apiUrl}/verificarDisponibilidade/${aulaId}/${horarioId}`
-    );
-  }
-
-  inscreverColaborador(command: any): Observable<any> {
-    return this.http.post(
-      `${this.apiUrl}/inscrever/${command.idColaborador}/${command.idAula}/${command.idHorario}`,
-      command
-    );
-  }
-
-  cancelarInscricao(inscricaoId: string): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/cancelar/${inscricaoId}`);
-  }
 
   checarEmailDuplicado(email: string): Observable<any> {
     return this.http.get(`${this.apiUrl}/checarEmailDuplicado/${email}`);
@@ -64,6 +44,31 @@ export class AulaFlexServiceService {
       `${this.apiUrl}/colaborador/redefinirSenha/${email}/${chave}`,
       command
     );
+  }
+
+  inscreverColaborador(command: any): Observable<any> {
+    return this.http.post(
+      `${this.apiUrl}/inscrever/${command.idColaborador}/${command.idAula}/${command.idHorario}`,
+      command
+    );
+  }
+
+ verificarInscricaoExistente(colaboradorId: string, aulaId: string, horarioId: string): Observable<boolean> {
+    return this.http.get<boolean>(`${this.apiUrl}/verificar/${colaboradorId}/${aulaId}/${horarioId}`);
+  }
+
+  totalInscricoesPorCategoria(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/categoriasAulas`);
+  }
+
+  verificarDisponibilidade(aulaId: string, horarioId: string): Observable<any> {
+    return this.http.get(
+      `${this.apiUrl}/verificarDisponibilidade/${aulaId}/${horarioId}`
+    );
+  }
+
+  cancelarInscricao(inscricaoId: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/cancelar/${inscricaoId}`);
   }
 
 }

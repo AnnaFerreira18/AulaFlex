@@ -4,7 +4,7 @@
 </div>
 
 <div *ngIf="inscricoes.length > 0; else noInscricoes">
-  <div class="card mb-4" *ngFor="let inscricao of inscricoes">
+  <div class="card mb-4" *ngFor="let inscricao of pagedInscricoes">
     <div class="card-body grid-container">
       <div class="categoria-container">
         <p class="card-text categoria">
@@ -17,6 +17,12 @@
       <p class="card-text dataInicio">Início: {{ inscricao.DataInicio | date: 'dd/MM/yyyy' }}</p>
       <p class="card-text dataFim">Fim: {{ inscricao.DataFim | date: 'dd/MM/yyyy' }}</p>
     </div>
+  </div>
+
+<div class="pagination">
+    <button (click)="prevPage()" [disabled]="currentPage === 1">Anterior</button>
+    <span>Página {{ currentPage }} de {{ totalPages }}</span>
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages">Próxima</button>
   </div>
 </div>
 

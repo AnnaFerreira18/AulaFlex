@@ -12,7 +12,7 @@
         Digite seu e-mail no campo abaixo.
       </p>
 
-      <form>
+      <form (ngSubmit)="enviarEmail()">
         <div class="mb-3 position-relative">
           <input
             type="email"
@@ -22,14 +22,38 @@
             placeholder=" "
             required
             [(ngModel)]="email"
+            #emailInput="ngModel"
+            [ngClass]="{
+              'input-error': emailInput.invalid && emailInput.touched
+            }"
           />
-          <label for="email" class="form-label position-absolute start-0 ms-3"
-            >Email</label
+          <label
+            for="email"
+            class="form-label position-absolute start-0 ms-3"
+            [ngClass]="{
+              'label-error': emailInput.invalid && emailInput.touched
+            }"
+            >E-mail</label
           >
+
+          <div
+            *ngIf="emailInput.invalid && emailInput.touched"
+            class="error-message text-danger"
+          >
+            Por favor, insira um e-mail válido.
+          </div>
+        </div>
+
+        <div
+          *ngIf="mensagem"
+          [ngClass]="mensagemErro ? 'text-danger' : 'text-success'"
+          class="text-center"
+        >
+          {{ mensagem }}
         </div>
 
         <div class="d-flex justify-content-center mt-4">
-          <button type="submit" class="btn btn-success w-50" (click)="enviarEmail()">Confirmar</button>
+          <button type="submit" class="btn btn-success w-50">Confirmar</button>
         </div>
       </form>
 

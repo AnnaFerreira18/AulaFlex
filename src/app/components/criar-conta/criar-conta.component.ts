@@ -9,7 +9,6 @@ import { Router } from '@angular/router';
   styleUrls: ['./criar-conta.component.css'],
 })
 export class CriarContaComponent {
-
   form: FormGroup;
   public emailDuplicado = false;
   public senhaNaoCoincide = false;
@@ -19,8 +18,10 @@ export class CriarContaComponent {
     senha: '',
   };
   public confirmarSenha: string = '';
+  mensagem: string = '';
+  mostrarMensagem: boolean = false;
 
-constructor(
+  constructor(
     private fb: FormBuilder,
     private aulaFlexService: AulaFlexServiceService,
     private router: Router
@@ -50,7 +51,7 @@ constructor(
     );
   }
 
-verificarSenhas() {
+  verificarSenhas() {
     this.senhaNaoCoincide = this.formData.senha !== this.confirmarSenha;
   }
 
@@ -58,7 +59,7 @@ verificarSenhas() {
     this.senhaNaoCoincide = this.formData.senha !== this.confirmarSenha;
 
     if (this.senhaNaoCoincide || this.emailDuplicado) {
-      return; 
+      return;
     }
 
     const command = {
@@ -69,11 +70,20 @@ verificarSenhas() {
 
     this.aulaFlexService.criarConta(command).subscribe(
       (response) => {
-        console.log('Conta criada com sucesso:', response);
+        this.mensagem = 'conta criada com sucesso!';
+        this.mostrarMensagem = true;
+        setTimeout(() => {
         this.router.navigate(['/login']);
+      }, 3000);
       },
       (error) => {
-        console.error('Erro ao criar conta:', error);
+        this.mensagem = 'Erro ao criar conta.';
+        this.mostrarMensagem = true;
+
+        setTimeout(() => {
+          this.mostrarMensagem = false;
+          this.mensagem = '';
+        }, 3000);
       }
     );
   }

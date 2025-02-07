@@ -19,6 +19,8 @@ export class InicioComponent implements OnInit {
   horariosDisponiveis: any[] = [];
   idAulaSelecionada: any;
   colaborador: any;
+  inscricaoRealizada: boolean = false;
+  inscricaoExistente: boolean = false;
 
   constructor(
     private AulaFlexServiceService: AulaFlexServiceService,
@@ -44,17 +46,42 @@ export class InicioComponent implements OnInit {
   carregarHorarios(idAula: any): void {
     this.AulaFlexServiceService.listarHorariosPorAula(idAula).subscribe(
       (horarios: Horario[]) => {
-        this.horariosDisponiveis = horarios;
+        console.log(horarios);
+
+        const horariosAgrupados = this.agruparPorDia(horarios);
+
+        this.horariosDisponiveis = horariosAgrupados;
       },
       (error) => {
         console.error('Erro ao carregar horários:', error);
       }
     );
   }
+
+  agruparPorDia(horarios: Horario[]): any[] {
+    const horariosPorDia: any[] = [];
+
+    horarios.forEach((horario) => {
+      const diaSemana = horario.DiaSemana;
+
+      const diaExistente = horariosPorDia.find(
+        (item) => item.dia === diaSemana
+      );
+      if (diaExistente) {
+        diaExistente.horarios.push(horario);
+      } else {
+        horariosPorDia.push({ dia: diaSemana, horarios: [horario] });
+      }
+    });
+
+    return horariosPorDia;
+  }
+
   filtrarHorariosPorDia(dia: string) {
-    return this.horariosDisponiveis.filter(
-      (horario) => horario.DiaSemana === dia
+    const horariosDoDia = this.horariosDisponiveis.find(
+      (item) => item.dia === dia
     );
+    return horariosDoDia ? horariosDoDia.horarios : [];
   }
 
   listarAulas(): void {
@@ -107,6 +134,10 @@ export class InicioComponent implements OnInit {
 
     this.AulaFlexServiceService.inscreverColaborador(command).subscribe(
       (response) => {
+        this.inscricaoRealizada = true;
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
         console.log('Inscrição realizada com sucesso:', response);
       },
       (error) => {
@@ -114,6 +145,35 @@ export class InicioComponent implements OnInit {
       }
     );
   }
+
+
+// Método que verifica a inscrição quando o horário é alterado
+verificarInscricao() {
+  if (this.idAulaSelecionada && this.horarioSelecionado && this.colaborador?.idColaborador) {
+    this.AulaFlexServiceService.verificarInscricaoExistente(
+      this.colaborador.idColaborador,
+      this.idAulaSelecionada,
+      this.horarioSelecionado
+    ).subscribe(
+      (inscricaoExistente) => {
+        if (inscricaoExistente) {
+          this.error = 'Você já está inscrito nessa aula e horário.';
+          this.inscricaoExistente = true;  // Desativar o botão se já estiver inscrito
+        } else {
+          this.error = '';  // Limpar erro se a inscrição não existir
+          this.inscricaoExistente = false;  // Ativar o botão se não estiver inscrito
+        }
+      },
+      (error) => {
+        console.error('Erro ao verificar inscrição:', error);
+        this.error = 'Erro ao verificar inscrição.';
+        this.inscricaoExistente = false;  // Garantir que o botão estará habilitado caso ocorra um erro
+      }
+    );
+  }
+}
+
+
 
   obterDataAtual(): Date {
     const dataAtual = new Date();
@@ -141,14 +201,20 @@ export class InicioComponent implements OnInit {
     });
   }
 
-  abrirModal(idAula: any): void {
-    this.idAulaSelecionada = idAula;
-    this.carregarHorarios(idAula);
+abrirModal(idAula: any): void {
+  this.diaSelecionado = "";
+  this.horarioSelecionado = "";
+  this.error = "";
+  this.inscricaoRealizada = false;
 
-    const modalElement = document.getElementById('modalDetalhes');
-    if (modalElement) {
-      const modal = new window.bootstrap.Modal(modalElement);
-      modal.show();
-    }
+  this.idAulaSelecionada = idAula;
+  this.carregarHorarios(idAula);
+
+  const modalElement = document.getElementById('modalDetalhes');
+  if (modalElement) {
+    const modal = new window.bootstrap.Modal(modalElement);
+    modal.show();
   }
+}
+
 }

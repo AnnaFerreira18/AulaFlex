@@ -6,6 +6,14 @@
     <div class="card-body">
       <h3 class="card-title text-center">Criar conta</h3>
 
+      <div
+        *ngIf="mostrarMensagem"
+        class="alert alert-success text-center"
+        role="alert"
+      >
+        {{ mensagem }}
+      </div>
+
       <form (ngSubmit)="criarConta()">
         <div class="mb-3 position-relative">
           <input
@@ -17,10 +25,16 @@
             placeholder=" "
             required
             #nome="ngModel"
-            [ngClass]="{'input-error': nome.invalid && (nome.dirty || nome.touched)}"
+            [ngClass]="{
+              'input-error': nome.invalid && (nome.dirty || nome.touched)
+            }"
           />
-          <label for="nome" class="form-label position-absolute start-0 ms-3"
-            [ngClass]="{'label-error': nome.invalid && (nome.dirty || nome.touched)}"
+          <label
+            for="nome"
+            class="form-label position-absolute start-0 ms-3"
+            [ngClass]="{
+              'label-error': nome.invalid && (nome.dirty || nome.touched)
+            }"
             >Nome</label
           >
           <div *ngIf="nome.touched && nome.invalid" class="error-message">
@@ -39,10 +53,16 @@
             required
             #email="ngModel"
             (blur)="checarEmail()"
-            [ngClass]="{'input-error': email.invalid && (email.dirty || email.touched)}"
+            [ngClass]="{
+              'input-error': email.invalid && (email.dirty || email.touched)
+            }"
           />
-          <label for="email" class="form-label position-absolute start-0 ms-3"
-            [ngClass]="{'label-error': email.invalid && (email.dirty || email.touched)}"
+          <label
+            for="email"
+            class="form-label position-absolute start-0 ms-3"
+            [ngClass]="{
+              'label-error': email.invalid && (email.dirty || email.touched)
+            }"
             >E-mail</label
           >
           <div *ngIf="email.touched && email.invalid" class="error-message">
@@ -64,10 +84,16 @@
             required
             minlength="6"
             #senha="ngModel"
-            [ngClass]="{'input-error': senha.invalid && (senha.dirty || senha.touched)}"
+            [ngClass]="{
+              'input-error': senha.invalid && (senha.dirty || senha.touched)
+            }"
           />
-          <label for="senha" class="form-label position-absolute start-0 ms-3"
-            [ngClass]="{'label-error': senha.invalid && (senha.dirty || senha.touched)}"
+          <label
+            for="senha"
+            class="form-label position-absolute start-0 ms-3"
+            [ngClass]="{
+              'label-error': senha.invalid && (senha.dirty || senha.touched)
+            }"
             >Senha</label
           >
           <div *ngIf="senha.touched && senha.invalid" class="error-message">
@@ -88,12 +114,12 @@
             placeholder=" "
             required
             (blur)="verificarSenhas()"
-            [ngClass]="{'input-error': senhaNaoCoincide}"
+            [ngClass]="{ 'input-error': senhaNaoCoincide }"
           />
           <label
             for="confirmarSenha"
             class="form-label position-absolute start-0 ms-3"
-            [ngClass]="{'label-error': senhaNaoCoincide}"
+            [ngClass]="{ 'label-error': senhaNaoCoincide }"
           >
             Confirmar senha
           </label>
