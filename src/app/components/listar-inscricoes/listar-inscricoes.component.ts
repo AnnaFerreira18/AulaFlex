@@ -18,6 +18,8 @@ export class ListarInscricoesComponent implements OnInit {
   public pageSize: number = 5;
   public selectedInscricaoId: string | null = null;
   public statusMessage: string | null = null;
+  public idAulaSelecionada: string = '';
+  public horarioSelecionado: string = '';
 
   constructor(
     private aulaFlexServiceService: AulaFlexServiceService,
@@ -37,6 +39,7 @@ export class ListarInscricoesComponent implements OnInit {
       .listarInscricoesPorColaborador(this.colaborador)
       .subscribe(
         (inscricoes: Inscricao[]) => {
+          console.log(inscricoes)
           this.inscricoes = inscricoes;
           this.totalPages = Math.ceil(this.inscricoes.length / this.pageSize);
           this.paginate();
@@ -49,22 +52,40 @@ export class ListarInscricoesComponent implements OnInit {
 
 
 CancelarInscricao(inscricaoId: string) {
-  this.statusMessage = null;  
+  this.statusMessage = null;
+  console.log(this.inscricoes);
 
-  this.aulaFlexServiceService.cancelarInscricao(inscricaoId).subscribe(
-    () => {
-      this.statusMessage = 'Inscrição cancelada com sucesso!';
-      this.inscricoes = this.inscricoes.filter(inscricao => inscricao.IdInscricao !== inscricaoId);
-      this.paginate();
-      setTimeout(() => {
-          window.location.reload();
-        }, 3000);
-    },
-    (error) => {
-      this.statusMessage = 'Ocorreu um erro ao cancelar a inscrição. Tente novamente.';
-      console.error('Erro ao cancelar a inscrição:', error);
-    }
-  );
+  const inscricao = this.inscricoes.find(ins => ins.IdInscricao === inscricaoId);
+
+  if (inscricao) {
+    this.idAulaSelecionada = inscricao.IdAula;
+    this.horarioSelecionado = inscricao.IdHorario;
+
+    this.aulaFlexServiceService.cancelarInscricao(inscricaoId).subscribe(
+      () => {
+        this.statusMessage = 'Inscrição cancelada com sucesso!';
+
+        this.aulaFlexServiceService.alterarVagas(this.idAulaSelecionada, this.horarioSelecionado, false).subscribe(
+          () => {
+            this.inscricoes = this.inscricoes.filter(inscricao => inscricao.IdInscricao !== inscricaoId);
+            this.paginate();
+            setTimeout(() => {
+              window.location.reload();
+            }, 3000);
+          },
+          (error) => {
+            console.error('Erro ao alterar vagas após cancelamento:', error);
+          }
+        );
+      },
+      (error) => {
+        this.statusMessage = 'Ocorreu um erro ao cancelar a inscrição. Tente novamente.';
+        console.error('Erro ao cancelar a inscrição:', error);
+      }
+    );
+  } else {
+    console.error('Inscrição não encontrada.');
+  }
 }
 
 
@@ -82,7 +103,6 @@ confirmCancel() {
     this.CancelarInscricao(this.selectedInscricaoId);
     this.selectedInscricaoId = null;
 
-    // Fechar o modal manualmente após a ação
     const modalElement = document.getElementById('confirmModal');
     if (modalElement) {
       const modal = new Modal(modalElement);

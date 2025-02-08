@@ -122,32 +122,40 @@ export class InicioComponent implements OnInit {
     return imagem;
   }
 
-  inscrever() {
-    const dataInicio = this.obterDataAtual();
-    const dataFim = this.calcularDataFim(dataInicio);
+inscrever() {
+  const dataInicio = this.obterDataAtual();
+  const dataFim = this.calcularDataFim(dataInicio);
 
-    const command: Inscricao = {
-      idColaborador: this.colaborador,
-      idAula: this.idAulaSelecionada,
-      idHorario: this.horarioSelecionado,
-      dataInicio: dataInicio,
-      dataFim: dataFim,
-      status: 'Ativo',
-    };
+  const command: Inscricao = {
+    idColaborador: this.colaborador,
+    idAula: this.idAulaSelecionada,
+    idHorario: this.horarioSelecionado,
+    dataInicio: dataInicio,
+    dataFim: dataFim,
+    status: 'Ativo',
+  };
 
-    this.AulaFlexServiceService.inscreverColaborador(command).subscribe(
-      (response) => {
-        this.inscricaoRealizada = true;
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000);
-        console.log('Inscrição realizada com sucesso:', response);
-      },
-      (error) => {
-        console.error('Erro na inscrição:', error);
-      }
-    );
-  }
+  this.AulaFlexServiceService.inscreverColaborador(command).subscribe(
+    (response) => {
+      this.inscricaoRealizada = true;
+
+      this.AulaFlexServiceService.alterarVagas(this.idAulaSelecionada, this.horarioSelecionado, true).subscribe(
+        () => {
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+          console.log('Inscrição realizada com sucesso:', response);
+        },
+        (error) => {
+          console.error('Erro ao alterar vagas:', error);
+        }
+      );
+    },
+    (error) => {
+      console.error('Erro na inscrição:', error);
+    }
+  );
+}
 
   verificarInscricao() {
     if (this.idAulaSelecionada && this.horarioSelecionado && this.colaborador) {
