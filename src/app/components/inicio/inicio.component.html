@@ -213,7 +213,7 @@
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="modalDetalhesLabel">Realizar Inscrição</h5>
+        <h5 class="modal-title" id="modalDetalhesLabel">Inscrição</h5>
         <button
           type="button"
           class="btn-close"
@@ -225,14 +225,24 @@
         Inscrição realizada com sucesso!
       </div>
       <div class="modal-body">
-        <!-- Selecione o Dia -->
-        <label for="dia">Selecione o dia:</label>
+        <div *ngIf="!colaborador">
+          <p class="fs-4 text-center mt-4 text-dark">
+            Para aproveitar as nossas aulas, faça seu
+            <a href="/login">login</a> ou, se ainda não tem uma conta,
+            <a href="/criarConta">crie agora</a>!
+          </p>
+        </div>
+
+        <label for="dia" *ngIf="colaborador"
+          >Selecione o dia:</label
+        >
         <select
           id="dia"
           class="form-select"
           [(ngModel)]="diaSelecionado"
           (change)="carregarHorarios(idAulaSelecionada)"
           required
+          *ngIf="colaborador"
         >
           <option value="" disabled selected>Selecione o dia</option>
           <option
@@ -243,7 +253,6 @@
           </option>
         </select>
 
-        <!-- Selecione o Horário (só aparecerá quando o dia for selecionado) -->
         <div *ngIf="diaSelecionado" class="mt-3">
           <label for="horario">Selecione o horário:</label>
           <select
@@ -264,11 +273,13 @@
           </select>
         </div>
 
-        <div *ngIf="horariosDisponiveis.length == 0" class="mt-3">
+        <div
+          *ngIf="horariosDisponiveis.length == 0 && colaborador"
+          class="mt-3"
+        >
           <p>Não há horários disponíveis para o dia selecionado.</p>
         </div>
 
-        <!-- Exibição de erro -->
         <div class="alert alert-danger mt-3" *ngIf="error">
           {{ error }}
         </div>
@@ -286,6 +297,7 @@
             inscricaoExistente
           "
           (click)="inscrever()"
+          *ngIf="colaborador"
         >
           Confirmar inscrição
         </button>

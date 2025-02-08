@@ -12,17 +12,97 @@
         </p>
         <hr />
       </div>
-      <p class="card-text status">Status: {{ inscricao.Status }}</p>
-      <p class="card-text horario">{{ inscricao.DiaSemana }} - {{ inscricao.Hora }}h</p>
-      <p class="card-text dataInicio">Início: {{ inscricao.DataInicio | date: 'dd/MM/yyyy' }}</p>
-      <p class="card-text dataFim">Fim: {{ inscricao.DataFim | date: 'dd/MM/yyyy' }}</p>
+      <p
+        class="card-text status"
+        [ngClass]="{
+          'status-cancelada': inscricao.Status === 'Cancelada',
+          'status-ativa': inscricao.Status === 'Ativo'
+        }"
+      >
+        Status: {{ inscricao.Status }}
+      </p>
+
+      <p class="card-text horario">
+        {{ inscricao.DiaSemana }} - {{ inscricao.Hora }}h
+      </p>
+      <p class="card-text dataInicio">
+        Início: {{ inscricao.DataInicio | date : "dd/MM/yyyy" }}
+      </p>
+      <p class="card-text dataFim">
+        Fim: {{ inscricao.DataFim | date : "dd/MM/yyyy" }}
+      </p>
+      <div class="text-end" *ngIf="inscricao.Status !== 'Cancelada'">
+        <button
+          class="btn btn-danger btn-cancelar mt-3"
+          (click)="openModal(inscricao.IdInscricao)"
+        >
+          Cancelar inscrição
+        </button>
+      </div>
     </div>
   </div>
 
-<div class="pagination">
-    <button (click)="prevPage()" [disabled]="currentPage === 1">Anterior</button>
+  <div class="pagination">
+    <button (click)="prevPage()" [disabled]="currentPage === 1">
+      Anterior
+    </button>
     <span>Página {{ currentPage }} de {{ totalPages }}</span>
-    <button (click)="nextPage()" [disabled]="currentPage === totalPages">Próxima</button>
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages">
+      Próxima
+    </button>
+  </div>
+
+  <div
+    class="modal fade"
+    id="confirmModal"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">
+            Confirmar Cancelamento
+          </h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          Tem certeza que deseja cancelar esta inscrição?
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Fechar
+          </button>
+          <button
+            type="button"
+            class="btn btn-danger"
+            (click)="confirmCancel()"
+          >
+            Cancelar inscrição
+          </button>
+        </div>
+      </div>
+    </div>
+    <div
+      *ngIf="statusMessage"
+      class="alert"
+      [ngClass]="{
+        'alert-success': statusMessage.includes('sucesso'),
+        'alert-danger': statusMessage.includes('erro')
+      }"
+    >
+      {{ statusMessage }}
+    </div>
   </div>
 </div>
 

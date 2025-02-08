@@ -110,4 +110,38 @@
   }
 }
 
+button.btn-danger {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
 
+button.btn-danger:hover {
+  background-color: #c82333;
+}
+
+.status-cancelada {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 5px 10px;
+  border-radius: 5px;
+  display: inline-block;
+}
+
+.status-ativa {
+  background-color: #d4edda;
+  color: #155724;
+  padding: 5px 10px;
+  border-radius: 5px;
+  display: inline-block;
+}
+
+.alert {
+  max-width: 400px; 
+  margin-left: auto;
+  margin-right: auto;
+}

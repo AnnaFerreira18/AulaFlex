@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Horario, Aula } from 'src/app/shared/models';
 import { environment } from 'src/enviroments';
 import { Inscricao } from 'src/app/shared/models';
+import { Modal } from 'bootstrap';
 
 @Component({
   selector: 'app-inicio',
@@ -35,12 +36,14 @@ export class InicioComponent implements OnInit {
   ngOnInit(): void {
     this.colaborador = this.authService.getJsonLocalStorage('colaborador');
 
-    if (this.colaborador?.idColaborador) {
-      console.log('ID do Colaborador:', this.colaborador.idColaborador);
-    }
-
     this.scrollToFragment();
     this.listarAulas();
+
+    console.log(this.colaborador);
+
+    if (this.colaborador) {
+      console.log('ID do Colaborador:', this.colaborador);
+    }
   }
 
   carregarHorarios(idAula: any): void {
@@ -124,7 +127,7 @@ export class InicioComponent implements OnInit {
     const dataFim = this.calcularDataFim(dataInicio);
 
     const command: Inscricao = {
-      idColaborador: this.colaborador.idColaborador,
+      idColaborador: this.colaborador,
       idAula: this.idAulaSelecionada,
       idHorario: this.horarioSelecionado,
       dataInicio: dataInicio,
@@ -146,34 +149,69 @@ export class InicioComponent implements OnInit {
     );
   }
 
+  verificarInscricao() {
+    if (this.idAulaSelecionada && this.horarioSelecionado && this.colaborador) {
+      this.AulaFlexServiceService.verificarInscricaoExistente(
+        this.colaborador,
+        this.idAulaSelecionada,
+        this.horarioSelecionado
+      ).subscribe(
+        (inscricaoExistente) => {
+          if (inscricaoExistente) {
+            this.error = 'Você já está inscrito nessa aula.';
+            this.inscricaoExistente = true;
+            return;
+          }
 
-// Método que verifica a inscrição quando o horário é alterado
-verificarInscricao() {
-  if (this.idAulaSelecionada && this.horarioSelecionado && this.colaborador?.idColaborador) {
-    this.AulaFlexServiceService.verificarInscricaoExistente(
-      this.colaborador.idColaborador,
-      this.idAulaSelecionada,
-      this.horarioSelecionado
-    ).subscribe(
-      (inscricaoExistente) => {
-        if (inscricaoExistente) {
-          this.error = 'Você já está inscrito nessa aula e horário.';
-          this.inscricaoExistente = true;  // Desativar o botão se já estiver inscrito
-        } else {
-          this.error = '';  // Limpar erro se a inscrição não existir
-          this.inscricaoExistente = false;  // Ativar o botão se não estiver inscrito
+          this.AulaFlexServiceService.listarInscricoesPorColaborador(
+            this.colaborador
+          ).subscribe(
+            (inscricoes) => {
+              const diaSelecionado = this.diaSelecionado;
+              const horarioSelecionado = this.horarioSelecionado;
+
+              const inscricoesAtivas = inscricoes.filter(
+                (inscricao: any) => inscricao.Status === 'Ativo'
+              );
+
+              const inscricoesNoMesmoDia = inscricoesAtivas.filter(
+                (inscricao: any) => inscricao.DiaSemana === diaSelecionado
+              );
+
+              if (inscricoesNoMesmoDia.length >= 2) {
+                this.error =
+                  'Você já possui duas inscrições para este dia da semana.';
+                this.inscricaoExistente = true;
+                return;
+              }
+
+              const horarioExistente = inscricoesNoMesmoDia.some(
+                (inscricao: any) => inscricao.Hora === horarioSelecionado
+              );
+
+              if (horarioExistente) {
+                this.error = 'Você já possui uma inscrição neste horário.';
+                this.inscricaoExistente = true;
+                return;
+              }
+
+              this.error = '';
+              this.inscricaoExistente = false;
+            },
+            (error) => {
+              console.error('Erro ao listar inscrições:', error);
+              this.error = 'Erro ao listar inscrições.';
+            }
+          );
+        },
+        (error) => {
+          console.error('Erro ao verificar inscrição:', error);
+          this.error = 'Erro ao verificar inscrição.';
+          this.inscricaoExistente = false;
         }
-      },
-      (error) => {
-        console.error('Erro ao verificar inscrição:', error);
-        this.error = 'Erro ao verificar inscrição.';
-        this.inscricaoExistente = false;  // Garantir que o botão estará habilitado caso ocorra um erro
-      }
-    );
+      );
+    }
   }
-}
-
-
 
   obterDataAtual(): Date {
     const dataAtual = new Date();
@@ -201,20 +239,29 @@ verificarInscricao() {
     });
   }
 
-abrirModal(idAula: any): void {
-  this.diaSelecionado = "";
-  this.horarioSelecionado = "";
-  this.error = "";
-  this.inscricaoRealizada = false;
+  abrirModal(idAula: any): void {
+    if (!this.colaborador) {
+      this.inscricaoRealizada = false;
+      this.error = '';
+      const modalElement = document.getElementById('modalDetalhes');
+      if (modalElement) {
+        const modal = new window.bootstrap.Modal(modalElement);
+        modal.show();
+      }
+    } else {
+      this.diaSelecionado = '';
+      this.horarioSelecionado = '';
+      this.error = '';
+      this.inscricaoRealizada = false;
 
-  this.idAulaSelecionada = idAula;
-  this.carregarHorarios(idAula);
+      this.idAulaSelecionada = idAula;
+      this.carregarHorarios(idAula);
 
-  const modalElement = document.getElementById('modalDetalhes');
-  if (modalElement) {
-    const modal = new window.bootstrap.Modal(modalElement);
-    modal.show();
+      const modalElement = document.getElementById('modalDetalhes');
+      if (modalElement) {
+        const modal = new Modal(modalElement);
+        modal.show();
+      }
+    }
   }
-}
-
 }

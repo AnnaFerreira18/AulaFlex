@@ -14,9 +14,8 @@ export class LoginComponent {
 
   constructor(private authService: AuthService, private router: Router) {}
   onSubmit(): void {
-    // Verificando se os campos não estão vazios e se o e-mail tem um formato válido
     if (this.email && this.senha) {
-      // Aqui você pode fazer mais validações (como verificar se o e-mail tem o formato correto)
+    
       if (!this.isEmailValid(this.email)) {
         this.error = 'Por favor, insira um e-mail válido.';
         return;
@@ -26,7 +25,8 @@ export class LoginComponent {
       this.authService.login(this.email, this.senha).subscribe(
         (response) => {
           if (response && response.token) {
-            const colaborador = response.colaborador;
+            console.log(response)
+            const colaborador = response.idColaborador;
             const token = response.token;
             localStorage.setItem('colaborador', JSON.stringify(colaborador));
 
