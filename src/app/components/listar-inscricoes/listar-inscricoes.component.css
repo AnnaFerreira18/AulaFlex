@@ -141,7 +141,13 @@ button.btn-danger:hover {
 }
 
 .alert {
-  max-width: 400px; 
+  max-width: 400px;
   margin-left: auto;
   margin-right: auto;
+}
+
+@media (max-width: 635px) and (min-width: 375px){
+.dataFim { grid-column: 3; grid-row: 3; }
+.status { grid-column: 2; grid-row: 4; }
+
 }

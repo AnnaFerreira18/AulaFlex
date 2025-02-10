@@ -133,7 +133,7 @@ hr {
 }
 
 
-@media (max-width: 992px) {
+@media (max-width: 992px){
   .conteudo {
     width: 75%;
     padding: 30px;
@@ -146,7 +146,7 @@ hr {
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 830px) and (min-width: 576px) {
   .conteudo {
     width: 90%;
     padding: 20px;
@@ -161,16 +161,16 @@ hr {
   }
 }
 
-@media (max-width: 576px) {
+@media (max-width: 576px) and (min-width: 375px) {
   .conteudo {
     width: 100%;
     padding: 16px;
   }
   .conteudo h1 {
-    font-size: 30pt;
+    font-size: 20pt;
   }
   .conteudo p {
-    font-size: 20pt;
+    font-size: 14pt;
   }
 }
 
@@ -263,8 +263,6 @@ textarea:focus {
 }
 
 
-
-/* Responsividade */
 @media (max-width: 768px) {
   .modal-dialog {
     max-width: 100%;

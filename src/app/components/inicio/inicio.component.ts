@@ -206,10 +206,6 @@ inscrever() {
               this.error = '';
               this.inscricaoExistente = false;
             },
-            (error) => {
-              console.error('Erro ao listar inscrições:', error);
-              this.error = 'Erro ao listar inscrições.';
-            }
           );
         },
         (error) => {
