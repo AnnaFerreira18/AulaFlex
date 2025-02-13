@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/enviroments';
 import { HttpHeaders } from '@angular/common/http';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -10,18 +11,47 @@ import { HttpHeaders } from '@angular/common/http';
 export class AulaFlexServiceService {
   private apiUrl = environment.apiUrl;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private auth: AuthService) {}
+
+  private createAuthorizationHeader(): HttpHeaders {
+    const token = this.auth.getToken();
+    return new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+  }
 
   listarAulas(): Observable<any> {
     return this.http.get(`${this.apiUrl}/listarAulas`);
   }
 
   listarHorariosPorAula(aulaId: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/listarHorarios/?aulaId=${aulaId}`);
+    const headers = this.createAuthorizationHeader();
+    return this.http.get(`${this.apiUrl}/listarHorarios/?aulaId=${aulaId}`, {
+      headers,
+    });
   }
 
   listarInscricoesPorColaborador(idColaborador: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/inscricoes/${idColaborador}`);
+    const headers = this.createAuthorizationHeader();
+    return this.http.get(`${this.apiUrl}/inscricoes/${idColaborador}`, {
+      headers,
+    });
+  }
+
+  inscreverColaborador(command: any): Observable<any> {
+    const headers = this.createAuthorizationHeader();
+    return this.http.post(
+      `${this.apiUrl}/inscrever/${command.idColaborador}/${command.idAula}/${command.idHorario}`,
+      command,
+      { headers }
+    );
+  }
+
+  cancelarInscricao(inscricaoId: string): Observable<any> {
+    const headers = this.createAuthorizationHeader();
+    return this.http.delete(`${this.apiUrl}/cancelar/${inscricaoId}`, {
+      headers,
+    });
   }
 
   checarEmailDuplicado(email: string): Observable<any> {
@@ -46,13 +76,6 @@ export class AulaFlexServiceService {
     );
   }
 
-  inscreverColaborador(command: any): Observable<any> {
-    return this.http.post(
-      `${this.apiUrl}/inscrever/${command.idColaborador}/${command.idAula}/${command.idHorario}`,
-      command
-    );
-  }
-
   verificarInscricaoExistente(
     colaboradorId: string,
     aulaId: string,
@@ -71,10 +94,6 @@ export class AulaFlexServiceService {
     return this.http.get(
       `${this.apiUrl}/verificarDisponibilidade/${aulaId}/${horarioId}`
     );
-  }
-
-  cancelarInscricao(inscricaoId: string): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/cancelar/${inscricaoId}`);
   }
 
   alterarVagas(

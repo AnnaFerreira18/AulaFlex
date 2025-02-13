@@ -30,7 +30,7 @@ export class InicioComponent implements OnInit {
   ) {}
 
   ngAfterViewChecked(): void {
-    this.scrollToFragment(); // Chama após as mudanças de visualização
+    this.scrollToFragment();
   }
 
   ngOnInit(): void {

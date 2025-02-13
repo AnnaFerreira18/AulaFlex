@@ -44,9 +44,9 @@ import { FooterComponent } from './components/header-footer/footer/footer.compon
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
-      multi: true,
+      multi: true
     },
-{
+   {
       provide: 'SocialAuthServiceConfig',
       useValue: {
         autoLogin: false,

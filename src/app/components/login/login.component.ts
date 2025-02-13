@@ -15,13 +15,12 @@ export class LoginComponent {
   constructor(private authService: AuthService, private router: Router) {}
   onSubmit(): void {
     if (this.email && this.senha) {
-    
+
       if (!this.isEmailValid(this.email)) {
         this.error = 'Por favor, insira um e-mail válido.';
         return;
       }
 
-      // Tentando fazer o login
       this.authService.login(this.email, this.senha).subscribe(
         (response) => {
           if (response && response.token) {
@@ -33,7 +32,6 @@ export class LoginComponent {
             this.authService.saveToken(token);
             localStorage.setItem('jwt_token', token);
 
-            // Redirecionando para a página "inicio"
             this.router.navigate(['/inicio']);
           } else {
             this.error = 'Ocorreu um erro. Tente novamente.';

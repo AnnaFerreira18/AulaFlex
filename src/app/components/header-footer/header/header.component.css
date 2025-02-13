@@ -68,6 +68,10 @@
     display: block;
 }
 
+.dropdown-white .dropdown-item {
+  color: white !important;
+}
+
 .dropdown-item:hover, .dropdown-item:focus {
     background-color: #622986;
     color: white;

@@ -9,12 +9,17 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
   isAuthenticated = false;
+  isHomePage: boolean = false;
 
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
+    this.router.events.subscribe(() => {
+      this.isHomePage = this.router.url.includes('/inicio');
+    });
     this.isAuthenticated = this.authService.isAuthenticated();
   }
+
 
   fazerLogout(): void {
     this.authService.logout();
